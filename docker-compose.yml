@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  devcontainer:
+    image: devcontainer-ngdotnet:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: 16

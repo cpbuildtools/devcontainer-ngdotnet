@@ -1,0 +1,24 @@
+{
+    "name": "scripts",
+    "scripts": {
+        "postCreate": "run-s postCreate:*",
+        "postCreate:ts": "ts-node postCreate.ts",
+        "onCreate": "echo onCreate",
+        "postAttach": "echo postAttach",
+        "postStart": "nohup bash -c 'pnpm run start &'",
+        "updateContent": "echo updateContent",
+        "start": "ts-node start.ts"
+    },
+    "devDependencies": {
+        "@types/glob-watcher": "^5.0.2",
+        "@types/node": "16.11.31",
+        "glob-watcher": "^5.0.5",
+        "npm-run-all2": "5.0.2",
+        "simple-git": "^3.7.1",
+        "ts-node": "10.7.0",
+        "typescript": "4.6.3"
+    },
+    "dependencies": {
+        "chokidar": "^3.5.3"
+    }
+}
