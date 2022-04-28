@@ -174,8 +174,7 @@ WORKDIR /scripts
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
 RUN pnpm i
 COPY scripts .
-RUN sudo chown vscode:vscode ./init.sh
-#RUN chmod +x ./init.sh
+
 
 ####################
 # Startup
@@ -184,5 +183,4 @@ RUN sudo chown vscode:vscode ./init.sh
 RUN ng config -g cli.packageManager pnpm
 
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
-
 CMD [ "sleep", "infinity" ]
