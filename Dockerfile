@@ -172,10 +172,12 @@ USER vscode
 WORKDIR /scripts
 
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
+RUN sudo chown -R vscode:vscode .
 RUN ls -al
 RUN pnpm i
 COPY scripts .
-
+RUN sudo chown -R vscode:vscode .
+RUN ls -al
 
 ####################
 # Startup
