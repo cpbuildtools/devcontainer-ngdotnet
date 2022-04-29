@@ -13,13 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        continue-on-error: true
-        with:
-          key:  docker-layer-caching-Build-{hash}
-          restore-keys: |
-            docker-layer-caching-Build-
-
       - name: Get package version
         id: package_version_str
         uses: martinbeentjes/npm-get-version-action@master
@@ -42,6 +35,13 @@ jobs:
         with:
           version: "${{ steps.package_version_str.outputs.current-version }}"
           versionRegex: "(.*)"
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+        with:
+          key:  docker-layer-caching-Build-{hash}
+          restore-keys: |
+            docker-layer-caching-Build-
 
       - name: Build image
         run: docker-compose build
