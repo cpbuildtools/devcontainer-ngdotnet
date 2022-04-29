@@ -6,6 +6,9 @@ on:
       - "*"
       - "!release/latest"
 
+env:
+  GITHUB_USER: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ github.token }}
 jobs:
   check_build:
     runs-on: ubuntu-latest
