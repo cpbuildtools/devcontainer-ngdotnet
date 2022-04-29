@@ -172,6 +172,7 @@ USER vscode
 WORKDIR /scripts
 
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
+RUN ls -al
 RUN pnpm i
 COPY scripts .
 
