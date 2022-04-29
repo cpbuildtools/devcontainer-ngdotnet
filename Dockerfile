@@ -44,17 +44,9 @@ RUN npm install -g \
     @angular/cli \
     cordova
 
-
-
-
-
-#RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g pnpm yarn typescript ts-node @angular/cli cordova" 2>&1
-#RUN ng config -g cli.packageManager pnpm
-
 ####################
 # Android
 ####################
-
 
 # Install Java
 RUN apt-get update \
@@ -67,7 +59,6 @@ RUN update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
 # Install Android SDK
 RUN apt-get update \
   && apt-get install -y android-sdk usbutils python
-
 
 # Install Android CLI Tools
 WORKDIR /home/vscode
@@ -91,7 +82,6 @@ RUN /usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager --update
 RUN /usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-30" "build-tools;30.0.2" "build-tools;30.0.3"
 RUN sdkmanager --uninstall "build-tools;debian"
 
-
 # install Chrome for testing
 RUN sudo apt-get update \
     && sudo apt-get install libxss1 libappindicator1 libindicator7 -y \
@@ -99,8 +89,6 @@ RUN sudo apt-get update \
     && sudo apt install ./google-chrome*.deb -y  	
 
 RUN echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/00-local-userns.conf
-
-
 
 ####################
 # Docker
@@ -132,8 +120,6 @@ RUN echo "#!/bin/sh\n\
   \"\$@\"" >> /usr/local/share/docker-init.sh \
   && chmod +x /usr/local/share/docker-init.sh
 
-
-
 ########################################
 # Dev EnvironMent Support
 ########################################
@@ -151,8 +137,6 @@ RUN mkdir -p /home/vscode/.vscode-server/extensions \
     /home/vscode/.vscode-server \
     /home/vscode/.vscode-server-insiders
 
-
-
 ####################
 # Cleanup
 ####################
@@ -161,8 +145,6 @@ RUN apt-get autoremove -y \
 && apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=dialog
-
-
 
 ####################
 # Scripts
@@ -175,7 +157,6 @@ RUN sudo chown -R vscode:vscode .
 RUN pnpm i
 COPY scripts .
 RUN sudo chown -R vscode:vscode .
-
 
 ####################
 # Startup
