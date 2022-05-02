@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "release/latest"
+env:
+  GITHUB_USER: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ github.token }}
 
 jobs:
   publish:
@@ -33,20 +36,27 @@ jobs:
           version: "${{ steps.package_version_str.outputs.current-version }}"
           versionRegex: "(.*)"
 
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+        with:
+          key:  docker-layer-caching-Build-{hash}
+          restore-keys: |
+            docker-layer-caching-Build-
+
       - name: Build image
-        run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}
+        run: docker-compose build
 
       - name: Create image id
         run: echo "IMAGE_ID=docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}" >> $GITHUB_ENV
 
       - name: Add version tag
         run: |
-          docker tag ${{ github.event.repository.name }} $IMAGE_ID:${{steps.version.outputs.full}}
+          docker tag devcontainer-ngdotnet:build $IMAGE_ID:${{steps.version.outputs.full}}
 
       - name: Add latest tag
         if: ${{steps.version.outputs.major == 0 || steps.version.outputs.isPrerelease != true}}
         run: |
-          docker tag ${{ github.event.repository.name }} $IMAGE_ID:latest
+          docker tag devcontainer-ngdotnet:build $IMAGE_ID:latest
 
       - name: Log into registry
         run: echo "${{ github.token }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin

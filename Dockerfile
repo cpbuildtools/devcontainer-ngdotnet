@@ -157,6 +157,7 @@ RUN sudo chown -R vscode:vscode .
 RUN pnpm i
 COPY scripts .
 RUN sudo chown -R vscode:vscode .
+RUN chmod +x create.sh
 
 ####################
 # Startup

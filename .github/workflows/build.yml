@@ -17,6 +17,10 @@ jobs:
 
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
+        with:
+          key:  docker-layer-caching-Build-{hash}
+          restore-keys: |
+            docker-layer-caching-Build-
 
       - name: Build image
         run: docker-compose build
