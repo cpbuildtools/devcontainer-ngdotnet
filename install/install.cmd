@@ -25,3 +25,6 @@ winget list Mozilla.Firefox || winget install Mozilla.Firefox --accept-package-a
 
 winget list Mozilla.Firefox.DeveloperEdition && winget upgrade Mozilla.Firefox.DeveloperEdition --accept-package-agreements --accept-source-agreements
 winget list Mozilla.Firefox.DeveloperEdition || winget install Mozilla.Firefox.DeveloperEdition --accept-package-agreements --accept-source-agreements
+
+
+wsl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh
