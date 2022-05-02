@@ -26,8 +26,8 @@ winget list Mozilla.Firefox || winget install Mozilla.Firefox --accept-package-a
 winget list Mozilla.Firefox.DeveloperEdition && winget upgrade Mozilla.Firefox.DeveloperEdition --accept-package-agreements --accept-source-agreements
 winget list Mozilla.Firefox.DeveloperEdition || winget install Mozilla.Firefox.DeveloperEdition --accept-package-agreements --accept-source-agreements
 
-wsl curl -s --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
-wsl chmod +x install.sh
-wsl ./install.sh
+wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
+wsl --cd ~ chmod +x install.sh
+wsl --cd ~ ./install.sh
 
 wsl --cd ~ code ./development
