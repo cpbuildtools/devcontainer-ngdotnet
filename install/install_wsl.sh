@@ -1,99 +1,29 @@
 #!/bin/bash
 
-curr_name=$(git config --global user.name)
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 
-if [ -z "${curr_name}" ] 
-then
-    echo "Enter your Name: "
-    read name
-else 
-    echo "Enter your Name [${curr_name}]: "
-    read name
-    if [ -z "${name}" ] 
-    then
-        name=${curr_name}
-    fi
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-if [ -z "${name}" ] 
-then
-    echo "Error"
-    exit 1
-fi
+sleep 2
+clear
 
+nvm install 16
+sleep 2
+clear
+nvm use 16
 
-curr_email=$(git config --global user.email)
+npm i -g pnpm
 
-if [ -z "${curr_name}" ] 
-then
-    echo "Enter your Email: "
-    read email
-else 
-    echo "Enter your Email [${curr_email}]: "
-    read email
-    if [ -z "${email}" ] 
-    then
-        email=${curr_email}
-    fi
-fi
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
 
-if [ -z "${email}" ] 
-then
-    echo "Error"
-    exit 1
-fi
+pnpm i -g typescript @types/node ts-node
 
-curr_username=${GITHUB_USER}
+rm -rf .tmp
 
-if [ -z "${curr_username}" ] 
-then
-    echo "Enter your Github Username: "
-    read username
-else 
-    echo "Enter your Github Username [${curr_username}]: "
-    read username
-    if [ -z "${username}" ] 
-    then
-        username=${curr_username}
-    fi
-fi
-
-if [ -z "${username}" ] 
-then
-    echo "Error"
-    exit 1
-fi
-
-curr_token=${GITHUB_TOKEN}
-
-if [ -z "${curr_token}" ] 
-then
-    echo "Enter your Github Persional Access Token: "
-    read token
-else 
-    echo "Enter your Github Persional Access Token [${curr_token}]: "
-    read token
-    if [ -z "${token}" ] 
-    then
-        token=${curr_token}
-    fi
-fi
-
-if [ -z "${token}" ] 
-then
-    echo "Error"
-    exit 1
-fi
-
-
-git config --global --replace-all user.name "${name}"
-git config --global --replace-all user.email "${email}"
-
-setx.exe GITHUB_USER ${username}
-setx.exe GITHUB_TOKEN ${token}
-setx.exe WSLENV GITHUB_USER:GITHUB_TOKEN
-
-GITHUB_USER=${username}
-GITHUB_TOKEN=${token}
-
-mkdir -p ~/development
+git clone --branch release/latest https://github.com/cpbuildtools/devcontainer-ngdotnet.git .tmp
+cd .tmp/install/installer
+pnpm i
+ts-node index.ts
