@@ -1,0 +1,15 @@
+{
+    "name": "installer",
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "^17.0.31",
+        "chalk": "^5.0.1",
+        "inquirer": "^8.2.4",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.4"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^8.2.1",
+        "tslib": "^2.4.0"
+    }
+}
