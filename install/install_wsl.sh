@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
@@ -26,4 +26,7 @@ rm -rf .tmp
 git clone --branch release/latest https://github.com/cpbuildtools/devcontainer-ngdotnet.git .tmp
 cd .tmp/install/installer
 pnpm i
-ts-node index.ts
+
+sleep 2
+clear
+ts-node index.ts $@
