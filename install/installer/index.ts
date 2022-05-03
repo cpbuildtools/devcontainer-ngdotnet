@@ -1,10 +1,10 @@
-import { updateOrInstall } from './util/winget';
+import { update, updateOrInstall } from './util/winget';
 import yargs from 'yargs';
-import {hideBin} from 'yargs/helpers';
+import { hideBin } from 'yargs/helpers';
 
-const argv = yargs(hideBin(process.argv)).argv;
 
-console.log('argv', argv);
+
+
 
 const windowsInstalls: string[] = [
     'Microsoft.VisualStudioCode',
@@ -22,6 +22,19 @@ const windowsInstallsOptional: string[] = [
 
 
 (async () => {
+
+    const argv = await yargs(hideBin(process.argv))
+        .option('skip-win-install', {
+            type: 'boolean',
+            description: 'Skip optional windows app installations'
+        })
+        .option('win-update-only', {
+            type: 'boolean',
+            description: 'Only update optional windows apps. Do not install new ones'
+        })
+        .parse();
+    console.log('argv', argv);
+    
     /* let answer = await prompt([
          {
              name: 'name',
@@ -41,8 +54,10 @@ const windowsInstallsOptional: string[] = [
         await updateOrInstall(install);
     }
 
-    for (const install of windowsInstallsOptional) {
-        await updateOrInstall(install);
+    if (!argv.skipWinInstall) {
+        for (const install of windowsInstallsOptional) {
+            await (argv.winUpdateOnly ? update(install) : updateOrInstall(install));
+        }
     }
 
 })();
