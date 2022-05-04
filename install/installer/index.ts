@@ -39,8 +39,8 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
     }
 }
 async function initializeWsl() {
-    console.log(resolve('~/development'));
-    const basePath = resolve('~/development');
+    console.log(resolve('../../../development'));
+    const basePath = resolve('../../../development');
     const devPaths = await readdir(basePath);
     if (!devPaths.length){
         inquirer.prompt({
