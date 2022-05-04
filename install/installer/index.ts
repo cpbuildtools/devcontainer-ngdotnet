@@ -4,9 +4,10 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { update, updateOrInstall } from './util/winget.js';
 import { wingetPackages } from './winget-packages.js';
-import inquirer, { InputQuestion, Question, PasswordQuestion } from 'inquirer';
+import inquirer, { InputQuestion, Question, PasswordQuestion, DistinctQuestion } from 'inquirer';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
+import { readdir } from 'fs/promises';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -36,6 +37,36 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
         console.groupEnd();
     }
 }
+async function initializeWsl() {
+    const basePath = '~/development';
+    const devPaths = await readdir(basePath);
+    if (!devPaths.length){
+        inquirer.prompt({
+            type: 'input',
+            name: 'cloneOrCreate',
+            message: 'Whould you like to:',
+            choices: [
+                {
+                    name: 'Create a new Dev Conatiner.',
+                    value: 'create'
+                },
+                {
+                    name: 'Clone an exiting Dev Conatiner.',
+                    value: 'clone'
+                },
+                {
+                    name: 'Exit.',
+                    value: 'exit'
+                }
+            ]
+        } as Question)
+    }
+/*
+    inquirer.prompt([
+        {} as 
+    ])
+    */
+}
 
 async function configure(args: { name?: string, email?: string, "github-user"?: string, "github-token"?: string }) {
     const questions: Question[] = [];
@@ -47,7 +78,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             message: 'Your full name. Used for git:',
             default: await getConfig('user.name') || undefined,
             validate: (val?: string) => !!val?.trim()
-        } as InputQuestion);
+        } as Question);
     }
 
     if (!args.email) {
@@ -90,7 +121,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
     }
 
     const answers = Object.assign({}, await inquirer.prompt(questions), args);
-    
+
     await setConfig('user.name', answers.name ?? '');
     await setConfig('user.email', answers.email ?? '');
 
@@ -165,6 +196,13 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
 
         }, async argv => {
             await configure(argv);
+        })
+        .command('initialize-wsl', 'initialize the dev env', yargs => {
+            return yargs
+                ;
+
+        }, async argv => {
+            await initializeWsl();
         })
         .parse();
 })();

@@ -6,6 +6,9 @@ winget list Canonical.Ubuntu.2004 || winget install Canonical.Ubuntu.2004 --acce
 
 wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
 wsl --cd ~ chmod +x install.sh
-wsl --cd ~ ./install.sh %*
+wsl --cd ~ ./install.sh
+
+wsl --shutdown
+wsl --cd ~ cd .tmp/install/installer/ && ts-node index.ts initialize-wsl
 
 rem wsl --cd ~ code ./development

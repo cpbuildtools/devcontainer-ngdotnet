@@ -67,14 +67,6 @@ export const wingetPackages: WingetPackage[] = [
         category: "Browsers",
     },
     {
-        id: 'Fortinet.FortiClientVPN',
-        name: 'FortiClient VPN',
-        description: 'Enables FortiClient VPN connections via windows vpn',
-        version: 'latest',
-        required: false,
-        category: "Networking",
-    },
-    {
         id: 'dbeaver.dbeaver',
         name: 'DBeaver Community Edition',
         description: 'Windows database management application with support for most popular dbs',
