@@ -59,7 +59,7 @@ function exitInstaller(): never {
 }
 
 async function initializeDocker(appdata: string) {
-    const appdataPath = await translateWindowsPath(appdata);
+    const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
     const dockerConfig = await readJsonFile(dockerConfigPath);
     console.log('dockerConfig:', dockerConfig);
