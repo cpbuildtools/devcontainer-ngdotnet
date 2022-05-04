@@ -1,18 +1,13 @@
 #!/bin/bash
-
-clear
+ 
 curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-sleep 2
-clear
-
 nvm install 16
-sleep 2
-clear
+
 nvm use 16
 
 npm i -g pnpm
@@ -28,6 +23,5 @@ git clone --branch release/latest https://github.com/cpbuildtools/devcontainer-n
 cd .tmp/install/installer
 pnpm i
 
-sleep 2
-clear
+
 ts-node index.ts $@

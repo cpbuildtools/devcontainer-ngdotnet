@@ -8,4 +8,4 @@ wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontaine
 wsl --cd ~ chmod +x install.sh
 wsl --cd ~ ./install.sh %*
 
-wsl --cd ~ code ./development
+rem wsl --cd ~ code ./development
