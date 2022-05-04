@@ -9,6 +9,10 @@ wsl --cd ~ chmod +x install.sh
 wsl --cd ~ ./install.sh
 
 wsl --shutdown
-wsl --cd ~ cd .tmp/install/installer/ && ./initialize_wsl.sh
+
+wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/initialize_wsl.sh -o initialize.sh
+wsl --cd ~ chmod +x initialize.sh
+wsl --cd ~ ./initialize.sh
+
 
 rem wsl --cd ~ code ./development
