@@ -42,6 +42,9 @@ async function initializeWsl() {
     console.log(resolve('../../../development'));
     const basePath = resolve('../../../development');
     const devPaths = await readdir(basePath);
+    console.log('devPaths', devPaths);
+
+    
     if (!devPaths.length){
         inquirer.prompt({
             type: 'input',
