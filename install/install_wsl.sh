@@ -24,4 +24,4 @@ cd .tmp/install/installer
 pnpm i
 
 
-ts-node index.ts $@
+ts-node index.ts install
