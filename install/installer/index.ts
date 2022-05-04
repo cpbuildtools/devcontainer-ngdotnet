@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import { readdir } from 'fs/promises';
+import { readdir, mkdir } from 'fs/promises';
+import { existsSync } from 'fs';
 import inquirer, { InputQuestion, ListQuestion, Question } from 'inquirer';
 import Enumerable from 'linq';
 import { resolve } from 'path';
@@ -10,6 +11,7 @@ import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { update, updateOrInstall } from './util/winget.js';
 import { wingetPackages } from './winget-packages.js';
+import { dockerLogin } from './util/docker.js';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -53,11 +55,16 @@ function exitInstaller(): never {
 }
 
 async function initializeWsl() {
-    console.log(resolve('../../../development'));
-    const basePath = resolve('../../../development');
-    const devPaths = await readdir(basePath);
-    console.log('devPaths', devPaths);
+    const user = getEnv('GITHUB_USER')!;
+    const token = getEnv('GITHUB_TOKEN')!;
+    await dockerLogin('ghcr.io', user, token);
+    await dockerLogin('docker.pkg.github.com', user, token);
 
+    const basePath = resolve('../../../development');
+    if(!existsSync(basePath)){
+        await mkdir(basePath, {recursive: true});
+    }
+    const devPaths = await readdir(basePath);
 
     const choices = [
         {

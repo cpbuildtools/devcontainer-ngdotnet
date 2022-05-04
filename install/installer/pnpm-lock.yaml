@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@types/inquirer': ^8.2.1
@@ -21,7 +21,7 @@ dependencies:
   inquirer: 8.2.4
   linq: 4.0.0
   simple-git: 3.7.1
-  ts-node: 10.7.0_l47be6km5p57gglrggidw5gsgm
+  ts-node: 10.7.0_5f3e12794cebfbf3197131903b74d233
   typescript: 4.6.4
   yargs: 17.4.1
 
@@ -480,7 +480,7 @@ packages:
       os-tmpdir: 1.0.2
     dev: false
 
-  /ts-node/10.7.0_l47be6km5p57gglrggidw5gsgm:
+  /ts-node/10.7.0_5f3e12794cebfbf3197131903b74d233:
     resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
     hasBin: true
     peerDependencies:
