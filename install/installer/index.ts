@@ -12,6 +12,10 @@ import { getConfig, setConfig } from './util/git.js';
 import { update, updateOrInstall } from './util/winget.js';
 import { wingetPackages } from './winget-packages.js';
 import { dockerLogin } from './util/docker.js';
+import { translateWindowsPath } from './util/wsl.js';
+
+import { join } from 'path/posix';
+import { readJsonFile } from './util/json.js';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -54,15 +58,26 @@ function exitInstaller(): never {
     exit(0);
 }
 
+async function initializeDocker(appdata: string) {
+    const appdataPath = await translateWindowsPath(appdata);
+    const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
+    const dockerConfig = await readJsonFile(dockerConfigPath);
+    console.log('dockerConfig:', dockerConfig);
+}
+
 async function initializeWsl() {
+
+
     const user = getEnv('GITHUB_USER')!;
     const token = getEnv('GITHUB_TOKEN')!;
     await dockerLogin('ghcr.io', user, token);
     await dockerLogin('docker.pkg.github.com', user, token);
 
+
+
     const basePath = resolve('../../../development');
-    if(!existsSync(basePath)){
-        await mkdir(basePath, {recursive: true});
+    if (!existsSync(basePath)) {
+        await mkdir(basePath, { recursive: true });
     }
     const devPaths = await readdir(basePath);
 
@@ -237,9 +252,14 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
         })
         .command('initialize-wsl', 'initialize the dev env', yargs => {
             return yargs
+                .option('appdata', {
+                    type: 'string',
+                    description: 'path to windows appdata',
+                })
                 ;
 
         }, async argv => {
+            await initializeDocker(argv.appdata!);
             await initializeWsl();
         })
         .parse();

@@ -23,4 +23,4 @@ git clone --branch release/latest https://github.com/cpbuildtools/devcontainer-n
 cd .tmp/install/installer
 pnpm i
 
-ts-node index.ts install
+ts-node index.ts install $@
