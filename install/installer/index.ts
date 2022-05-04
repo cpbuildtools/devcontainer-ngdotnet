@@ -8,8 +8,6 @@ import inquirer, { InputQuestion, Question, PasswordQuestion } from 'inquirer';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 
-console.log('-------------------')
-
 const wingetQuery = Enumerable.from(wingetPackages);
 
 const coreInstallsQuery = wingetQuery.where(x => !!x.required).orderBy(x => x.id);
