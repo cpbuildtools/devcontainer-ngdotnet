@@ -1,6 +1,7 @@
 {
     "name": "installer",
     "type": "module",
+    "version": "1.0.0",
     "scripts": {},
     "dependencies": {
         "@types/node": "^17.0.31",

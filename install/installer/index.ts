@@ -1,14 +1,15 @@
 import chalk from 'chalk';
+import { readdir } from 'fs/promises';
+import inquirer, { InputQuestion, ListQuestion, Question } from 'inquirer';
 import Enumerable from 'linq';
+import { resolve } from 'path';
+import { exit } from 'process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { update, updateOrInstall } from './util/winget.js';
-import { wingetPackages } from './winget-packages.js';
-import inquirer, { InputQuestion, Question, PasswordQuestion, ListQuestion } from 'inquirer';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
-import { readdir } from 'fs/promises';
-import { resolve } from 'path';
+import { update, updateOrInstall } from './util/winget.js';
+import { wingetPackages } from './winget-packages.js';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -38,6 +39,19 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
         console.groupEnd();
     }
 }
+
+
+async function cloneDevContainer() {
+}
+async function createDevContainer() {
+}
+async function loadDevContainer() {
+}
+
+function exitInstaller(): never {
+    exit(0);
+}
+
 async function initializeWsl() {
     console.log(resolve('../../../development'));
     const basePath = resolve('../../../development');
@@ -74,13 +88,16 @@ async function initializeWsl() {
         choices
     } as ListQuestion);
 
-    console.log('answer:', answer)
-    switch(answer.action){
+    switch (answer.action) {
         case 'create':
-            break;
+            return await createDevContainer();
+        case 'clone':
+            return await cloneDevContainer();
+        case 'load':
+            return await loadDevContainer();
+        default:
+            exitInstaller();
     }
-
-
 }
 
 async function configure(args: { name?: string, email?: string, "github-user"?: string, "github-token"?: string }) {
@@ -175,7 +192,6 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             if (!argv.coreOnly) {
                 await installOptionalWinApps();
             }
-
         })
         .command('update', 'update the dependancies for devcontainers', yargs => {
             return yargs
