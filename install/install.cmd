@@ -8,7 +8,7 @@ winget list Canonical.Ubuntu.2004 || winget install Canonical.Ubuntu.2004 --acce
 @echo off
 for /f "delims=" %%a in ('dir /b %userprofile%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows*') do set "ubuntuFile=%%a"
 start %userprofile%\AppData\Local\Microsoft\WindowsApps\%ubuntuFile%\ubuntu2004.exe
-echo "Follow the instruction in the ubunto window and then press any key"
+echo Complete the ubuntu setup in the ubuntu terminal. One ubuntu is set up return to this window.
 pause
 wsl --shutdown
 @echo on
