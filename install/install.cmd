@@ -10,19 +10,21 @@ for /f "delims=" %%a in ('dir /b %userprofile%\AppData\Local\Packages\CanonicalG
 start %userprofile%\AppData\Local\Microsoft\WindowsApps\%ubuntuFile%\ubuntu2004.exe
 echo Complete the ubuntu setup in the ubuntu terminal. One ubuntu is set up return to this window.
 pause
-wsl --shutdown
+wsl -t Ubuntu-20.04
 @echo on
 
 rem make sure to select ububto as the default wsl
 
-wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
-wsl --cd ~ chmod +x install.sh
-wsl --cd ~ ./install.sh
+wsl -d Ubuntu-20.04 --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
+wsl -d Ubuntu-20.04 --cd ~ chmod +x install.sh
+wsl -d Ubuntu-20.04 --cd ~ ./install.sh
 
-wsl --shutdown
+wsl -t Ubuntu-20.04
 
-wsl --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/initialize_wsl.sh -o initialize.sh
-wsl --cd ~ chmod +x initialize.sh
-wsl --cd ~ ./initialize.sh
+wsl -d Ubuntu-20.04 --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/initialize_wsl.sh -o initialize.sh
+wsl -d Ubuntu-20.04 --cd ~ chmod +x initialize.sh
+wsl -d Ubuntu-20.04 --cd ~ ./initialize.sh
+
+wsl -t Ubuntu-20.04
 
 rem wsl --cd ~ code ./development
