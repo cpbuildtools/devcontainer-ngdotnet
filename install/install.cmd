@@ -9,6 +9,6 @@ wsl --cd ~ chmod +x install.sh
 wsl --cd ~ ./install.sh
 
 wsl --shutdown
-wsl --cd ~ cd .tmp/install/installer/ && ts-node index.ts initialize-wsl
+wsl --cd ~ cd .tmp/install/installer/ && ./initialize_wsl.sh
 
 rem wsl --cd ~ code ./development
