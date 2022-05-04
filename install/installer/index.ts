@@ -38,6 +38,7 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
     }
 }
 async function initializeWsl() {
+    console.log(__dirname);
     const basePath = '/home/vscode/development';
     const devPaths = await readdir(basePath);
     if (!devPaths.length){
