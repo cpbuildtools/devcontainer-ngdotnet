@@ -15,4 +15,4 @@ export PATH="$PNPM_HOME:$PATH"
 
 cd .tmp/install/installer
 
-ts-node index.ts install
+ts-node index.ts initialize-wsl
