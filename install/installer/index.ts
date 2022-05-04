@@ -8,6 +8,7 @@ import inquirer, { InputQuestion, Question, PasswordQuestion, DistinctQuestion }
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { readdir } from 'fs/promises';
+import { resolve } from 'path';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -38,7 +39,7 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
     }
 }
 async function initializeWsl() {
-    console.log(__dirname);
+    console.log(resolve('.'));
     const basePath = '/home/vscode/development';
     const devPaths = await readdir(basePath);
     if (!devPaths.length){
