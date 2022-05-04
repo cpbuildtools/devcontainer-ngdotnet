@@ -1,6 +1,6 @@
 #!/bin/bash
  
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+curl https://raw.githubusercontent.com/creationix/nvm/release/latest/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -22,6 +22,5 @@ rm -rf .tmp
 git clone --branch release/latest https://github.com/cpbuildtools/devcontainer-ngdotnet.git .tmp
 cd .tmp/install/installer
 pnpm i
-
 
 ts-node index.ts install
