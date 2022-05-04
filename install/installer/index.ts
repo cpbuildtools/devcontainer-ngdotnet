@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { update, updateOrInstall } from './util/winget.js';
 import { wingetPackages } from './winget-packages.js';
-import inquirer, { InputQuestion, Question, PasswordQuestion, DistinctQuestion } from 'inquirer';
+import inquirer, { InputQuestion, Question, PasswordQuestion, ListQuestion } from 'inquirer';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { readdir } from 'fs/promises';
@@ -47,9 +47,9 @@ async function initializeWsl() {
     
     if (!devPaths.length){
         inquirer.prompt({
-            type: 'input',
+            type: 'list',
             name: 'cloneOrCreate',
-            message: 'Whould you like to:',
+            message: 'Whould you like to:',      
             choices: [
                 {
                     name: 'Create a new Dev Conatiner.',
@@ -64,7 +64,7 @@ async function initializeWsl() {
                     value: 'exit'
                 }
             ]
-        } as Question)
+        } as ListQuestion)
     }
 /*
     inquirer.prompt([
