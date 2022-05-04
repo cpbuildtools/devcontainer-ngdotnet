@@ -13,4 +13,6 @@ npm i -g pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+cd .tmp/install/installer
+
 ts-node index.ts install
