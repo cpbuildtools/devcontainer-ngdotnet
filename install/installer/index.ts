@@ -44,33 +44,43 @@ async function initializeWsl() {
     const devPaths = await readdir(basePath);
     console.log('devPaths', devPaths);
 
-    
-    if (!devPaths.length){
-        inquirer.prompt({
-            type: 'list',
-            name: 'cloneOrCreate',
-            message: 'Whould you like to:',      
-            choices: [
-                {
-                    name: 'Create a new Dev Conatiner.',
-                    value: 'create'
-                },
-                {
-                    name: 'Clone an exiting Dev Conatiner.',
-                    value: 'clone'
-                },
-                {
-                    name: 'Exit.',
-                    value: 'exit'
-                }
-            ]
-        } as ListQuestion)
+
+    const choices = [
+        {
+            name: 'Create a new Dev Conatiner.',
+            value: 'create'
+        },
+        {
+            name: 'Clone an exiting Dev Conatiner.',
+            value: 'clone'
+        },
+        {
+            name: 'Exit.',
+            value: 'exit'
+        }
+    ];
+
+    if (devPaths.length) {
+        choices.splice(1, 0, {
+            name: 'Load an exiting Dev Conatiner.',
+            value: 'load'
+        });
     }
-/*
-    inquirer.prompt([
-        {} as 
-    ])
-    */
+
+    const answer = await inquirer.prompt({
+        type: 'list',
+        name: 'action',
+        message: 'Whould you like to:',
+        choices
+    } as ListQuestion);
+
+    console.log('answer:', answer)
+    switch(answer.action){
+        case 'create':
+            break;
+    }
+
+
 }
 
 async function configure(args: { name?: string, email?: string, "github-user"?: string, "github-token"?: string }) {
