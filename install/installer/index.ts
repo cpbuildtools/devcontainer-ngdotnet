@@ -92,7 +92,7 @@ async function cloneDevContainer(basePath: string) {
 
     const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
 
-    await exec(`code.exe "${path}" &`);
+    await exec(`code "${path}" &`);
     console.log('path', path, r);
 
     // https://github.com/IdealSupply/app-reception-visitors.git
