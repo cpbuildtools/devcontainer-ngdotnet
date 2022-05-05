@@ -11,11 +11,12 @@ import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { update, updateOrInstall } from './util/winget.js';
 import { wingetPackages } from './winget-packages.js';
-import { dockerLogin } from './util/docker.js';
+import { dockerLogin, startDockerDesktop } from './util/docker.js';
 import { translateWindowsPath } from './util/wsl.js';
 
 import { join } from 'path/posix';
 import { readJsonFile, writeJsonFile } from './util/json.js';
+import { locateInstallationPath } from './util/windows.js';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -70,7 +71,10 @@ async function initializeDocker(appdata: string) {
 
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
+
+    const dockerDesktopPath = locateInstallationPath('')
     console.log('dockerConfig:', dockerConfig);
+    await startDockerDesktop();
 
 }
 

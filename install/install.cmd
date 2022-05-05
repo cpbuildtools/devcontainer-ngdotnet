@@ -4,8 +4,6 @@ wsl --update
 wsl --shutdown
 wsl --set-default-version 2
 
-
-
 winget list Canonical.Ubuntu.2004 || winget install Canonical.Ubuntu.2004 --accept-package-agreements --accept-source-agreements
 
 rem Get the file name of the ubuntu executable
