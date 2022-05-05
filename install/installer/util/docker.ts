@@ -9,7 +9,10 @@ export async function dockerLogin(url: string, user: string, token: string) {
 }
 
 export async function getDockerDesktopPath(){
-    return await translateWindowsPath('C:/Program Files/Docker/Docker');
+    console.log('getDockerDesktopPath')
+    const path = await translateWindowsPath('C:\\Program Files\\Docker\\Docker');
+    console.log('getDockerDesktopPath:', path)
+    return path;
 }
 export async function startDockerDesktop() {
     try{
