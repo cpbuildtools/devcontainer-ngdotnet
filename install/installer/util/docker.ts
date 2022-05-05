@@ -9,15 +9,16 @@ export async function dockerLogin(url: string, user: string, token: string) {
 }
 
 export async function getDockerDesktopPath(){
-    console.log('getDockerDesktopPath')
+    
     const path = await translateWindowsPath('C:\\Program Files\\Docker\\Docker');
-    console.log('getDockerDesktopPath:', path)
+   
     return path;
 }
 export async function startDockerDesktop() {
     try{
-        console.log('startDockerDesktop:', `start.exe "${await getDockerDesktopPath()}/Docker Desktop.exe"`)
-        await exec(`start.exe "${await getDockerDesktopPath()}/Docker Desktop.exe"`);
+        const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe"`;
+        console.log('startDockerDesktop:', cmd);
+        await exec(cmd);
     }catch(e){
         console.error(e);
         throw e;

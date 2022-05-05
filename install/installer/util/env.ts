@@ -4,7 +4,7 @@ import { run, exec } from "./cmd.js";
 export async function setWindowsEnv(name: string, value: string | null) {
     try {
         if(value === null){
-            console.log(await run(`setx.exe ${name} ''`));
+            await run(`setx.exe ${name} ''`);
         }else{
            await run(`setx.exe ${name} "${value}"`);
         }
