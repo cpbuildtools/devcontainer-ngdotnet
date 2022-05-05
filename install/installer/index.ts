@@ -136,14 +136,14 @@ async function initializeWsl() {
 
     console.info();
     console.info(chalk.green('********************************************************************'));
-    console.info(chalk.green('* Dev container prerequisites intalled and configured              *'));
+    console.info(chalk.green('* Dev container prerequisites installed and configured             *'));
     console.info(chalk.green('********************************************************************'));
     console.info();
 
     const answer = await inquirer.prompt({
         type: 'list',
         name: 'action',
-        message: 'Whould you like to:',
+        message: '',
         choices
     } as ListQuestion);
 
