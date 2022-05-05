@@ -2,11 +2,11 @@ import { run } from './cmd.js';
 
 
 export async function translateWindowsPath(path: string): Promise<string> {
-    const result = await run(`wslpath -a -u "${path}"`);
+    const result = await (await run(`wslpath -a -u "${path}"`)).trim();
     return result;
 }
 export async function translateWslPath(path: string): Promise<string> {
-    return await run(`wslpath -a -w "${path}"`);
+    return (await run(`wslpath -a -w "${path}"`)).trim();
 }
 
 
