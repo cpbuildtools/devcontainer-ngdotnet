@@ -15,7 +15,7 @@ import { dockerLogin } from './util/docker.js';
 import { translateWindowsPath } from './util/wsl.js';
 
 import { join } from 'path/posix';
-import { readJsonFile } from './util/json.js';
+import { readJsonFile, writeJsonFile } from './util/json.js';
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -62,7 +62,16 @@ async function initializeDocker(appdata: string) {
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
     const dockerConfig = await readJsonFile(dockerConfigPath);
+
+    const integratedWslDistros = (dockerConfig.integratedWslDistros ?? []) as string[];
+    if(integratedWslDistros.indexOf('Ubuntu-20.04') === -1){
+        integratedWslDistros.push('Ubuntu-20.04');
+    }
+
+    dockerConfig.integratedWslDistros = integratedWslDistros;
+    await writeJsonFile(dockerConfigPath, dockerConfig);
     console.log('dockerConfig:', dockerConfig);
+
 }
 
 async function initializeWsl() {
