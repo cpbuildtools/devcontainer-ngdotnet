@@ -18,6 +18,7 @@ import { translateWindowsPath } from './util/wsl.js';
 import { wingetPackages } from './winget-packages.js';
 
 import simpleGit from 'simple-git';
+import { exec } from './util/cmd.js';
 
 
 const wingetQuery = Enumerable.from(wingetPackages);
@@ -91,6 +92,7 @@ async function cloneDevContainer(basePath: string) {
 
     const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
 
+    await exec(`code.exe "${path}" &`);
     console.log('path', path, r);
 
     // https://github.com/IdealSupply/app-reception-visitors.git
