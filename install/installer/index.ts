@@ -62,12 +62,10 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
 }
 
 
-async function cloneDevContainer(basePath:string) {
-
-    //const git = simpleGit('')
+async function cloneDevContainer(basePath: string) {
     const user = getEnv('GITHUB_USER')!;
 
-    const answer = await inquirer.prompt({   
+    const answer = await inquirer.prompt({
         type: 'input',
         name: 'repo',
         message: 'Repository to clone:',
@@ -75,26 +73,31 @@ async function cloneDevContainer(basePath:string) {
     } as InputQuestion);
 
     let repo = answer.repo as string;
-    if(repo.startsWith('https://github.com/') && repo.endsWith('.git')){
+    if (repo.startsWith('https://github.com/') && repo.endsWith('.git')) {
         repo = repo.substring('https://github.com/'.length, repo.lastIndexOf('.'));
     }
-    if(repo.startsWith('https://github.com/')){
+    if (repo.startsWith('https://github.com/')) {
         repo = repo.substring('https://github.com/'.length);
     }
 
-    if(repo.startsWith('https://') || repo.startsWith('http://')){
+    if (repo.startsWith('https://') || repo.startsWith('http://')) {
         throw new Error('Only https://github.com is currenly supported');
     }
-
+    
+    const git = simpleGit();
     const path = join(basePath, repo);
+    await mkdir(path, { recursive: true });
+
+    await git.clone(`https://github.com/${repo}.git`, path);
 
     console.log('path', path);
+
     // https://github.com/IdealSupply/app-reception-visitors.git
-    
+
 }
-async function createDevContainer(basePath:string) {
+async function createDevContainer(basePath: string) {
 }
-async function loadDevContainer(basePath:string) {
+async function loadDevContainer(basePath: string) {
 }
 
 function exitInstaller(): never {
@@ -241,7 +244,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
         } as InputQuestion);
     }
 
-    if(questions.length){
+    if (questions.length) {
         console.info();
         console.info(chalk.yellow('********************************************************************'));
         console.info(chalk.yellow('* User Information                                                 *'));
