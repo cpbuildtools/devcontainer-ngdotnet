@@ -25,6 +25,12 @@ const optInstallQuery = wingetQuery.where(x => !x.required);
 const categories = optInstallQuery.select(x => x.category).distinct().toArray();
 
 async function installCoreWinApps(updatesOnly?: boolean) {
+    console.info();
+    console.info(chalk.yellowBright('********************************************************************'));
+    console.info(chalk.yellowBright('* Installing Core Windows Applications                             *'));
+    console.info(chalk.yellowBright('********************************************************************'));
+    console.info();
+
     console.group(chalk.yellowBright(`Core`));
     for (const install of coreInstallsQuery.toArray()) {
         await (updatesOnly ? update(install.id) : updateOrInstall(install.id));
@@ -33,6 +39,12 @@ async function installCoreWinApps(updatesOnly?: boolean) {
 }
 
 async function installOptionalWinApps(updatesOnly?: boolean) {
+    console.info();
+    console.info(chalk.yellowBright('********************************************************************'));
+    console.info(chalk.yellowBright('* Installing Windows Applications                                  *'));
+    console.info(chalk.yellowBright('********************************************************************'));
+    console.info();
+
     const cats = optInstallQuery.groupBy(x => x.category, x => x, (category, packages) => ({
         category,
         packages: packages.orderBy(x => x.id).toArray()
@@ -73,13 +85,14 @@ async function initializeDocker(appdata: string) {
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
 
-
+    console.info();
     console.info(chalk.yellow('********************************************************************'))
     console.info(chalk.yellow('* Waiting for access to docker                                     *'))
     console.info(chalk.yellow('*                                                                  *'))
     console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
     console.info(chalk.yellow('* the service if nessisarry                                        *'))
     console.info(chalk.yellow('********************************************************************'))
+    console.info();
 
     await waitForDockerInit();
     console.info(chalk.gray('Docker is ready.'));
@@ -92,8 +105,6 @@ async function initializeWsl() {
     const token = getEnv('GITHUB_TOKEN')!;
     await dockerLogin('ghcr.io', user, token);
     await dockerLogin('docker.pkg.github.com', user, token);
-
-
 
     const basePath = resolve('../../../development');
     if (!existsSync(basePath)) {
@@ -122,6 +133,12 @@ async function initializeWsl() {
             value: 'load'
         });
     }
+
+    console.info();
+    console.info(chalk.green('********************************************************************'));
+    console.info(chalk.green('* Dev container prerequisites intalled and configured              *'));
+    console.info(chalk.green('********************************************************************'));
+    console.info();
 
     const answer = await inquirer.prompt({
         type: 'list',
@@ -192,6 +209,14 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
                 return false;
             }
         } as InputQuestion);
+    }
+
+    if(questions.length){
+        console.info();
+        console.info(chalk.yellow('********************************************************************'));
+        console.info(chalk.yellow('* User Information                                                 *'));
+        console.info(chalk.yellow('********************************************************************'));
+        console.info();
     }
 
     const answers = Object.assign({}, await inquirer.prompt(questions), args);
