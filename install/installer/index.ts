@@ -60,6 +60,8 @@ function exitInstaller(): never {
 }
 
 async function initializeDocker(appdata: string) {
+    await startDockerDesktop();
+
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
     const dockerConfig = await readJsonFile(dockerConfigPath);
@@ -71,7 +73,7 @@ async function initializeDocker(appdata: string) {
 
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
-    await startDockerDesktop();
+    
 }
 
 async function initializeWsl() {
