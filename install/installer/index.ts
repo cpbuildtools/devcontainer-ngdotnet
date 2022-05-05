@@ -88,9 +88,10 @@ async function cloneDevContainer(basePath: string) {
     
     const git = simpleGit();
     const path = join(basePath, repo);
-    await rm(path, {recursive: true, force: true})
+    await rm(path, {recursive: true, force: true});
     await mkdir(path, { recursive: true });
 
+    console.log('clone', `https://${user}:${token}@github.com/${repo}.git`);
     const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
 
     await exec(`code "${path}" &`);
