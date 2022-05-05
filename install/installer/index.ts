@@ -60,7 +60,7 @@ function exitInstaller(): never {
 }
 
 async function initializeDocker(appdata: string) {
-    
+
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
     const dockerConfig = await readJsonFile(dockerConfigPath);
@@ -82,7 +82,7 @@ async function initializeDocker(appdata: string) {
     console.info(chalk.yellow('********************************************************************'))
 
     await waitForDockerInit();
-
+    console.info(chalk.gray('Docker is ready.'));
 }
 
 async function initializeWsl() {
