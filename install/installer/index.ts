@@ -91,8 +91,7 @@ async function cloneDevContainer(basePath: string) {
     await rm(path, {recursive: true, force: true});
     await mkdir(path, { recursive: true });
 
-    console.log('clone', `https://${user}:${token}@github.com/${repo}.git`);
-    const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
+    const r = await git.clone(`https://${token}:x-oauth-basic@github.com/${repo}.git`, path);
 
     const c = await exec(`code "${path}"`);
     console.log('path', path, r, c);
