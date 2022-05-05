@@ -13,7 +13,7 @@ export async function getDockerDesktopPath(){
 }
 export async function startDockerDesktop() {
     try{
-        await exec(`start.exe ${getDockerDesktopPath()}/Docker Desktop.exe`);
+        await exec(`${getDockerDesktopPath()}/Docker Desktop.exe`);
     }catch(e){
         console.error(e);
         throw e;
