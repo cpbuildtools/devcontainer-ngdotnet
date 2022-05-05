@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { existsSync } from 'fs';
-import { mkdir, readdir } from 'fs/promises';
+import { mkdir, readdir, rm } from 'fs/promises';
 import inquirer, { InputQuestion, ListQuestion, Question } from 'inquirer';
 import Enumerable from 'linq';
 import { resolve } from 'path';
@@ -88,6 +88,7 @@ async function cloneDevContainer(basePath: string) {
     
     const git = simpleGit();
     const path = join(basePath, repo);
+    await rm(path, {recursive: true, force: true})
     await mkdir(path, { recursive: true });
 
     const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
