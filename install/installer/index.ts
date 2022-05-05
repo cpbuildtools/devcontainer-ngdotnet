@@ -8,7 +8,7 @@ import { join } from 'path/posix';
 import { exit } from 'process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { dockerLogin, startDockerDesktop } from './util/docker.js';
+import { dockerLogin, startDockerDesktop, waitForDockerInit } from './util/docker.js';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { readJsonFile, writeJsonFile } from './util/json.js';
@@ -61,8 +61,6 @@ function exitInstaller(): never {
 
 async function initializeDocker(appdata: string) {
     
-   
-
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
     const dockerConfig = await readJsonFile(dockerConfigPath);
@@ -74,7 +72,9 @@ async function initializeDocker(appdata: string) {
 
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
-    
+
+    await waitForDockerInit();
+
 }
 
 async function initializeWsl() {

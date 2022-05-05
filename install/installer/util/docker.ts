@@ -37,3 +37,17 @@ export async function getDockerConfigPath(appdata: string) {
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     return join(appdataPath, 'Docker', 'settings.json');
 }
+
+export async function waitForDockerInit() {
+    /*let ver = '';
+    while(!ver){
+        try{
+            ver = ;
+        }catch(e){
+            console.log(e);
+        }
+    }*/
+
+    while(await exec('docker --version') !== 0);
+    
+}
