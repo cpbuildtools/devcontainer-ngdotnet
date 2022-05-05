@@ -71,12 +71,7 @@ async function initializeDocker(appdata: string) {
 
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
-    try {
-        await startDockerDesktop();
-    } catch (e) {
-        console.error(e)
-    }
-
+    await startDockerDesktop();
 }
 
 async function initializeWsl() {
