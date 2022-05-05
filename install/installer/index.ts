@@ -1,22 +1,22 @@
 import chalk from 'chalk';
-import { readdir, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
+import { mkdir, readdir } from 'fs/promises';
 import inquirer, { InputQuestion, ListQuestion, Question } from 'inquirer';
 import Enumerable from 'linq';
 import { resolve } from 'path';
+import { join } from 'path/posix';
 import { exit } from 'process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { dockerLogin, startDockerDesktop } from './util/docker.js';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
-import { update, updateOrInstall } from './util/winget.js';
-import { wingetPackages } from './winget-packages.js';
-import { dockerLogin, startDockerDesktop } from './util/docker.js';
-import { translateWindowsPath } from './util/wsl.js';
-
-import { join } from 'path/posix';
 import { readJsonFile, writeJsonFile } from './util/json.js';
 import { locateInstallationPath } from './util/windows.js';
+import { update, updateOrInstall } from './util/winget.js';
+import { translateWindowsPath } from './util/wsl.js';
+import { wingetPackages } from './winget-packages.js';
+
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -65,19 +65,18 @@ async function initializeDocker(appdata: string) {
     const dockerConfig = await readJsonFile(dockerConfigPath);
 
     const integratedWslDistros = (dockerConfig.integratedWslDistros ?? []) as string[];
-    if(integratedWslDistros.indexOf('Ubuntu-20.04') === -1){
+    if (integratedWslDistros.indexOf('Ubuntu-20.04') === -1) {
         integratedWslDistros.push('Ubuntu-20.04');
     }
 
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
-
-    const dockerDesktopPath = locateInstallationPath('')
     console.log('dockerConfig::::', dockerConfig);
-    try{
+
+    try {
         await startDockerDesktop();
         console.log('startDockerDesktop done');
-    }catch(e){
+    } catch (e) {
         console.error(e)
     }
 
