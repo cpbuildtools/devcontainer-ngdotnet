@@ -17,6 +17,8 @@ import { update, updateOrInstall } from './util/winget.js';
 import { translateWindowsPath } from './util/wsl.js';
 import { wingetPackages } from './winget-packages.js';
 
+import simpleGit from 'simple-git';
+
 
 const wingetQuery = Enumerable.from(wingetPackages);
 
@@ -60,11 +62,29 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
 }
 
 
-async function cloneDevContainer() {
+async function cloneDevContainer(basePath:string) {
+
+    //const git = simpleGit('')
+    const user = getEnv('GITHUB_USER')!;
+
+    const answer = await inquirer.prompt({   
+        type: 'input',
+        name: 'repo',
+        message: 'Repository to clone:',
+        default: `user/ngdotnet-devcontainer`
+    } as InputQuestion);
+
+    let repo = answer.repo as string;
+    if(repo.startsWith('https://github.com/')){
+        repo = repo.substring('https://github.com/'.length, repo.lastIndexOf('.'));
+    }
+    console.log('repo', repo);
+    // https://github.com/IdealSupply/app-reception-visitors.git
+    
 }
-async function createDevContainer() {
+async function createDevContainer(basePath:string) {
 }
-async function loadDevContainer() {
+async function loadDevContainer(basePath:string) {
 }
 
 function exitInstaller(): never {
@@ -96,15 +116,15 @@ async function initializeDocker(appdata: string) {
 
     await waitForDockerInit();
     console.info(chalk.gray('Docker is ready.'));
-}
-
-async function initializeWsl() {
-
 
     const user = getEnv('GITHUB_USER')!;
     const token = getEnv('GITHUB_TOKEN')!;
     await dockerLogin('ghcr.io', user, token);
     await dockerLogin('docker.pkg.github.com', user, token);
+}
+
+async function initializeWsl() {
+
 
     const basePath = resolve('../../../development');
     if (!existsSync(basePath)) {
@@ -149,11 +169,11 @@ async function initializeWsl() {
 
     switch (answer.action) {
         case 'create':
-            return await createDevContainer();
+            return await createDevContainer(basePath);
         case 'clone':
-            return await cloneDevContainer();
+            return await cloneDevContainer(basePath);
         case 'load':
-            return await loadDevContainer();
+            return await loadDevContainer(basePath);
         default:
             exitInstaller();
     }
