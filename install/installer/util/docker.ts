@@ -47,7 +47,8 @@ export async function waitForDockerInit() {
             console.log(e);
         }
     }*/
-
+    console.log('waitForDockerInit');
     while(await exec('docker --version') !== 0);
-    
+    console.log('DockerInit');
+
 }
