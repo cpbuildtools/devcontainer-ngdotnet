@@ -14,7 +14,7 @@ export async function getDockerDesktopPath(){
 export async function startDockerDesktop() {
     try{
         console.log('startDockerDesktop:', `start.exe "${await getDockerDesktopPath()}/Docker Desktop.exe"`)
-        await exec(`start.exe "${getDockerDesktopPath()}/Docker Desktop.exe"`);
+        await exec(`start.exe "${await getDockerDesktopPath()}/Docker Desktop.exe"`);
     }catch(e){
         console.error(e);
         throw e;
