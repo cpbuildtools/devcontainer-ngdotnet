@@ -12,5 +12,10 @@ export async function getDockerDesktopPath(){
     return await translateWindowsPath('C:/Program Files/Docker/Docker');
 }
 export async function startDockerDesktop() {
-    await exec(`start.exe ${getDockerDesktopPath()}/Docker Desktop.exe`);
+    try{
+        await exec(`start.exe ${getDockerDesktopPath()}/Docker Desktop.exe`);
+    }catch(e){
+        console.error(e);
+        throw e;
+    }
 }
