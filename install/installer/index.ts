@@ -64,6 +64,7 @@ async function installOptionalWinApps(updatesOnly?: boolean) {
 
 async function cloneDevContainer(basePath: string) {
     const user = getEnv('GITHUB_USER')!;
+    const token = getEnv('GITHUB_TOKEN')!;
 
     const answer = await inquirer.prompt({
         type: 'input',
@@ -88,9 +89,9 @@ async function cloneDevContainer(basePath: string) {
     const path = join(basePath, repo);
     await mkdir(path, { recursive: true });
 
-    await git.clone(`https://github.com/${repo}.git`, path);
+    const r = await git.clone(`https://${user}:${token}@github.com/${repo}.git`, path);
 
-    console.log('path', path);
+    console.log('path', path, r);
 
     // https://github.com/IdealSupply/app-reception-visitors.git
 
