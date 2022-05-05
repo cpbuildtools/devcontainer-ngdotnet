@@ -75,10 +75,20 @@ async function cloneDevContainer(basePath:string) {
     } as InputQuestion);
 
     let repo = answer.repo as string;
-    if(repo.startsWith('https://github.com/')){
+    if(repo.startsWith('https://github.com/') && repo.endsWith('.git')){
         repo = repo.substring('https://github.com/'.length, repo.lastIndexOf('.'));
     }
-    console.log('repo', repo);
+    if(repo.startsWith('https://github.com/')){
+        repo = repo.substring('https://github.com/'.length);
+    }
+
+    if(repo.startsWith('https://') || repo.startsWith('http://')){
+        throw new Error('Only https://github.com is currenly supported');
+    }
+
+    const path = join(basePath, repo);
+
+    console.log('path', path);
     // https://github.com/IdealSupply/app-reception-visitors.git
     
 }
