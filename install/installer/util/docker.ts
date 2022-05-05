@@ -3,7 +3,7 @@ import { exec, run } from './cmd.js';
 import { sleep } from './sleep.js';
 import { translateWindowsPath } from './wsl.js';
 import { join } from 'path';
-import {existsSync} from 'fs'
+import { existsSync } from 'fs'
 
 export async function dockerLogin(url: string, user: string, token: string) {
     console.info(`Atempting to log docker into ${chalk.blueBright(url)} with user ${chalk.yellowBright(user)}`);
@@ -15,7 +15,7 @@ export async function getDockerDesktopPath() {
     const path = await translateWindowsPath('C:\\Program Files\\Docker\\Docker');
     return path;
 }
-export async function startDockerDesktop(appdata:string) {
+export async function startDockerDesktop(appdata: string) {
     try {
         const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe" &`;
         await exec(cmd);
@@ -39,16 +39,11 @@ export async function getDockerConfigPath(appdata: string) {
 }
 
 export async function waitForDockerInit() {
-    /*let ver = '';
-    while(!ver){
-        try{
-            ver = ;
-        }catch(e){
-            console.log(e);
-        }
-    }*/
-    console.log('waitForDockerInit');
-    while(await exec('docker --version') !== 0);
-    console.log('DockerInit');
-
+    let ver = '';
+    while (!ver) {
+        try {
+            ver = await run('docker --version');
+            await sleep(250);
+        } catch { }
+    }
 }

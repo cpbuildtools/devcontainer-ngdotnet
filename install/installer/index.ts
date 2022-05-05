@@ -73,6 +73,14 @@ async function initializeDocker(appdata: string) {
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
 
+
+    console.info(chalk.yellow('********************************************************************'))
+    console.info(chalk.yellow('* Waiting for access to docker                                     *'))
+    console.info(chalk.yellow('*                                                                  *'))
+    console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
+    console.info(chalk.yellow('* the service if nessisarry                                        *'))
+    console.info(chalk.yellow('********************************************************************'))
+
     await waitForDockerInit();
 
 }
