@@ -73,7 +73,7 @@ async function initializeDocker(appdata: string) {
     await writeJsonFile(dockerConfigPath, dockerConfig);
 
     const dockerDesktopPath = locateInstallationPath('')
-    console.log('dockerConfig:', dockerConfig);
+    console.log('dockerConfig::::', dockerConfig);
     try{
         await startDockerDesktop();
         console.log('startDockerDesktop done');
