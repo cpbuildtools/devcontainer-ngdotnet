@@ -7,7 +7,7 @@ import { existsSync } from 'fs'
 
 export async function dockerLogin(url: string, user: string, token: string) {
     console.info(`Atempting to log docker into ${chalk.blueBright(url)} with user ${chalk.yellowBright(user)}`);
-    const result = await exec(`docker login ${url} -u ${user} -p ${token}`);
+    const result = await exec(`echo "${token}" | docker login ${url} -u ${user} --password-stdin`);
     return !result;
 }
 
