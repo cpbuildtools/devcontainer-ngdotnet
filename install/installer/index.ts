@@ -60,7 +60,8 @@ function exitInstaller(): never {
 }
 
 async function initializeDocker(appdata: string) {
-    await startDockerDesktop();
+    
+   
 
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     const dockerConfigPath = join(appdataPath, 'Docker', 'settings.json');
@@ -215,6 +216,10 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
                     type: 'string',
                     description: 'Your github user'
                 })
+                .option('appdata', {
+                    type: 'string',
+                    description: 'path to windows appdata',
+                })
                 .option('github-token', {
                     type: 'string',
                     description: 'Your github personal access token(PAT).'
@@ -225,6 +230,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             if (!argv.coreOnly) {
                 await installOptionalWinApps();
             }
+            await startDockerDesktop(argv.appdata!);
         })
         .command('update', 'update the dependancies for devcontainers', yargs => {
             return yargs

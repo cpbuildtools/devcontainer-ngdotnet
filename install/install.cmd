@@ -17,7 +17,7 @@ wsl -t Ubuntu-20.04
 
 wsl -d Ubuntu-20.04 --cd ~ curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_wsl.sh -o install.sh
 wsl -d Ubuntu-20.04 --cd ~ chmod +x install.sh
-wsl -d Ubuntu-20.04 --cd ~ ./install.sh
+wsl -d Ubuntu-20.04 --cd ~ ./install.sh --appdata="%appdata%"
 
 wsl -t Ubuntu-20.04
 

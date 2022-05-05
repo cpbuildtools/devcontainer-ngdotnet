@@ -1,6 +1,9 @@
 import chalk from 'chalk';
 import { exec, run } from './cmd.js';
+import { sleep } from './sleep.js';
 import { translateWindowsPath } from './wsl.js';
+import { join } from 'path';
+import {existsSync} from 'fs'
 
 export async function dockerLogin(url: string, user: string, token: string) {
     console.info(`Atempting to log docker into ${chalk.blueBright(url)} with user ${chalk.yellowBright(user)}`);
@@ -8,27 +11,29 @@ export async function dockerLogin(url: string, user: string, token: string) {
     return !result;
 }
 
-export async function getDockerDesktopPath(){
+export async function getDockerDesktopPath() {
     const path = await translateWindowsPath('C:\\Program Files\\Docker\\Docker');
     return path;
 }
-export async function startDockerDesktop() {
-    try{
+export async function startDockerDesktop(appdata:string) {
+    try {
         const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe" &`;
-        console.log('startDockerDesktop:', cmd);
-        let started = false;
-        while(!started){
-            try{
-                const r = await run('docker --version');
-                console.log('ver:', r);
-                started = true;
-            }catch(e){
-                console.log(e)
-            }
-        }
         await exec(cmd);
-    }catch(e){
+        const dockerConfigPath = await getDockerConfigPath(appdata);
+        console.log('Waiting for:', dockerConfigPath)
+        while (!existsSync(dockerConfigPath)) {
+            await sleep(500);
+        }
+        console.log('found', dockerConfigPath);
+
+    } catch (e) {
         console.error(e);
         throw e;
     }
+}
+
+
+export async function getDockerConfigPath(appdata: string) {
+    const appdataPath = (await translateWindowsPath(appdata)).trim();
+    return join(appdataPath, 'Docker', 'settings.json');
 }
