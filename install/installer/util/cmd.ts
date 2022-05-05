@@ -23,12 +23,15 @@ export function run(cmd: string): Promise<string> {
             let data: string[] = [];
             console.log('run:', cmd);
             const child = spawn(cmd, { shell: true, stdio: 'pipe' });
+            console.log('spawned: ', cmd);
             child.on('exit', (code) => {
+                console.log('exit: ', cmd);
                 let d = data.join('');
                 if (code === 0) {
                     res(d);
                 }
                 else {
+                    console.log('rej: ', cmd, code, d);
                     rej({
                         code,
                         data: d
@@ -40,6 +43,7 @@ export function run(cmd: string): Promise<string> {
                 data.push(d.toString('utf-8'));
             })
         } catch (e) {
+            console.log('rej: ', e);
             rej(e);
         }
     });
