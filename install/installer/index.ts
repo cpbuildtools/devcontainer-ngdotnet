@@ -102,12 +102,12 @@ async function cloneDevContainer(basePath: string) {
             if (e.message.indexOf('Cloning into') !== -1) {
                 const answer = await inquirer.prompt({
                     type: 'confirm',
-                    name: 'Repository does not exist. Create it?',
+                    name: 'create',
+                    message: 'Repository does not exist. Create it?',
                     default: true
                 } as ConfirmQuestion);
                 console.log(answer)
                 if (answer.create) {
-                    console.log('_createDevContainer')
                     await _createDevContainer(repo, path);
                 }
             }
