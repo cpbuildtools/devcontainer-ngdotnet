@@ -17,7 +17,7 @@ import { update, updateOrInstall } from './util/winget.js';
 import { translateWindowsPath } from './util/wsl.js';
 import { wingetPackages } from './winget-packages.js';
 
-import simpleGit from 'simple-git';
+import simpleGit, { GitError } from 'simple-git';
 import { exec } from './util/cmd.js';
 
 
@@ -85,16 +85,21 @@ async function cloneDevContainer(basePath: string) {
     if (repo.startsWith('https://') || repo.startsWith('http://')) {
         throw new Error('Only https://github.com is currenly supported');
     }
-    
+
     const git = simpleGit();
     const path = join(basePath, repo);
-    await rm(path, {recursive: true, force: true});
+    await rm(path, { recursive: true, force: true });
     await mkdir(path, { recursive: true });
 
-    try{
+    try {
         await git.clone(`https://${token}:x-oauth-basic@github.com/${repo}.git`, path);
-    }catch(e){
-        console.log(e);
+    } catch (e) {
+        if (e instanceof GitError){
+            e.name
+            console.log(e.name, e.message);
+        }else{
+            throw e;
+        }
     }
     await exec(`code "${path}"`);
 }
