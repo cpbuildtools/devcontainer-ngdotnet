@@ -102,7 +102,7 @@ async function cloneDevContainer(basePath: string) {
             if (e.message.indexOf('Cloning into') !== -1) {
                 const answer = await inquirer.prompt({
                     type: 'confirm',
-                    name: 'create',
+                    name: 'Repository does not exist. Create it?',
                     default: true
                 } as ConfirmQuestion);
                 if (answer.create) {
@@ -126,7 +126,7 @@ async function _createDevContainer(repo:string, url:string, path: string) {
         description: 'Personal Angular + .Net Devlopment Cocntainer',
         private: true,
     });*/
-
+    console.log(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
     await exec(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
 
     
