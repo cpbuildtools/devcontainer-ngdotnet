@@ -113,6 +113,7 @@ async function cloneDevContainer(basePath: string) {
                 }
             }
         } else {
+            console.log('Other Error => ', e);
             throw e;
         }
     }
