@@ -1,0 +1,25 @@
+{
+    "name": "installer",
+    "type": "module",
+    "version": "1.0.0",
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "^17.0.31",
+        "add": "^2.0.6",
+        "chalk": "^4.1.2",
+        "inquirer": "^8.2.4",
+        "linq": "^4.0.0",
+        "simple-git": "^3.7.1",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.4",
+        "yargs": "^17.4.1",
+        "@octokit/core": "^3.6.0",
+        "@octokit/plugin-rest-endpoint-methods": "^5.13.0",
+        "@octokit/rest": "^18.12.0"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^8.2.1",
+        "@types/yargs": "^17.0.10",
+        "tslib": "^2.4.0"
+    }
+}
