@@ -121,8 +121,8 @@ async function cloneDevContainer(basePath: string) {
 
 async function _createDevContainer(repo:string, path: string) {
     const p = repo.split('/', 2);
-    console.log(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
-    await exec(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
+    console.log(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
+    await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
 
     console.log('CREATED')
     /*
