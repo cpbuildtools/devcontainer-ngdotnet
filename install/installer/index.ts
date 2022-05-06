@@ -91,13 +91,12 @@ async function cloneDevContainer(basePath: string) {
     await rm(path, {recursive: true, force: true});
     await mkdir(path, { recursive: true });
 
-    const r = await git.clone(`https://${token}:x-oauth-basic@github.com/${repo}.git`, path);
-
-    const c = await exec(`code "${path}"`);
-    console.log('path', path, r, c);
-
-    // https://github.com/IdealSupply/app-reception-visitors.git
-
+    try{
+        await git.clone(`https://${token}:x-oauth-basic@github.com/${repo}.git`, path);
+    }catch(e){
+        console.log(e);
+    }
+    await exec(`code "${path}"`);
 }
 async function createDevContainer(basePath: string) {
 }
