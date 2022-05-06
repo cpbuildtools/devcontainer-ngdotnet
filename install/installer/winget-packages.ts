@@ -26,6 +26,14 @@ export const wingetPackages: WingetPackage[] = [
         category: "Core",
     },
     {
+        id: 'GitHub.cli',
+        name: 'GitHub CLI',
+        description: 'GitHubs official command-line tool.',
+        version: 'latest',
+        required: true,
+        category: "Core",
+    },
+    {
         id: 'Microsoft.WindowsTerminal',
         name: 'Windows Terminal',
         description: 'The new Windows Terminal, a tabbed command line experience for Windows.',
