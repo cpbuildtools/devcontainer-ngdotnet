@@ -105,8 +105,10 @@ async function cloneDevContainer(basePath: string) {
                     name: 'Repository does not exist. Create it?',
                     default: true
                 } as ConfirmQuestion);
+                console.log(answer)
                 if (answer.create) {
-                    await _createDevContainer(repo, repoUrl, path);
+                    console.log('_createDevContainer')
+                    await _createDevContainer(repo, path);
                 }
             }
         } else {
@@ -117,21 +119,16 @@ async function cloneDevContainer(basePath: string) {
     await exec(`code "${path}"`);
 }
 
-async function _createDevContainer(repo:string, url:string, path: string) {
+async function _createDevContainer(repo:string, path: string) {
     const p = repo.split('/', 2);
-
-    /*const r = await gh.repos.createInOrg({
-        org: p[0],
-        name: p[1],
-        description: 'Personal Angular + .Net Devlopment Cocntainer',
-        private: true,
-    });*/
     console.log(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
     await exec(`gh.exe repo create ${p} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
 
-    
+    console.log('CREATED')
+    /*
     const git = simpleGit();
     await git.clone(url, path);
+    */
 }
 
 async function createDevContainer(basePath: string) {
