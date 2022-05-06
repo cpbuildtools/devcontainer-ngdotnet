@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { existsSync } from 'fs';
 import { mkdir, readdir, rm } from 'fs/promises';
-import inquirer, { InputQuestion, ListQuestion, Question } from 'inquirer';
+import inquirer, { InputQuestion, ListQuestion, Question, ConfirmQuestion } from 'inquirer';
 import Enumerable from 'linq';
 import { resolve } from 'path';
 import { join } from 'path/posix';
@@ -19,8 +19,11 @@ import { wingetPackages } from './winget-packages.js';
 
 import simpleGit, { GitError } from 'simple-git';
 import { exec } from './util/cmd.js';
+import {Octokit} from '@octokit/rest';
 
-
+const gh = new Octokit({
+    auth: process.env.GITHUB_TOKEN,
+});
 const wingetQuery = Enumerable.from(wingetPackages);
 
 const coreInstallsQuery = wingetQuery.where(x => !!x.required).orderBy(x => x.id);
@@ -91,19 +94,48 @@ async function cloneDevContainer(basePath: string) {
     await rm(path, { recursive: true, force: true });
     await mkdir(path, { recursive: true });
 
+    const repoUrl = `https://${token}:x-oauth-basic@github.com/${repo}.git`;
     try {
-        await git.clone(`https://${token}:x-oauth-basic@github.com/${repo}.git`, path);
+        await git.clone(repoUrl, path);
     } catch (e) {
-        if (e instanceof GitError){
-            e.name
+        if (e instanceof GitError) {
+            if (e.name.indexOf('Repository not found.') !== -1) {
+                console.log('Repository not found!!!!!!!!!!!!!');
+                const answer = await inquirer.prompt({
+                    type: 'confirm',
+                    name: 'create',
+                    default: true
+                } as ConfirmQuestion);
+                console.log(answer);
+                if (answer.create) {
+                    await _createDevContainer(repo, repoUrl, path);
+                }
+            }
             console.log(e.name, e.message);
-        }else{
+        } else {
             throw e;
         }
     }
     await exec(`code "${path}"`);
 }
+
+async function _createDevContainer(repo:string, url:string, path: string) {
+    const p = repo.split('/', 2);
+
+    const r = await gh.repos.createInOrg({
+        org: p[0],
+        name: url,
+        description: 'Personal Angular + .Net Devlopment Cocntainer',
+        private: true,
+
+    });
+    console.log(r.status,r);
+    const git = simpleGit();
+    await git.clone(url, path);
+}
+
 async function createDevContainer(basePath: string) {
+   
 }
 async function loadDevContainer(basePath: string) {
 }
