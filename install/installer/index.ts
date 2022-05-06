@@ -122,8 +122,12 @@ async function cloneDevContainer(basePath: string) {
 async function _createDevContainer(repo:string, repoUrl:string, path: string) {
     const p = repo.split('/', 2);
     await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
-    const git = simpleGit();
+    let git = simpleGit();
     await git.clone(repoUrl, path);
+    git = simpleGit(path);
+    await git.checkoutLocalBranch('main');
+    git.commit('Initial Commit');
+    git.push();
 }
 
 async function createDevContainer(basePath: string) {
