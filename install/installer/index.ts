@@ -99,6 +99,7 @@ async function cloneDevContainer(basePath: string) {
         await git.clone(repoUrl, path);
     } catch (e) {
         if (e instanceof GitError) {
+            console.log('GitError => ', e.name);
             if (e.name.indexOf('Repository not found.') !== -1) {
                 console.log('Repository not found!!!!!!!!!!!!!');
                 const answer = await inquirer.prompt({
@@ -111,7 +112,6 @@ async function cloneDevContainer(basePath: string) {
                     await _createDevContainer(repo, repoUrl, path);
                 }
             }
-            console.log(e.name, e.message);
         } else {
             throw e;
         }
