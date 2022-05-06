@@ -108,7 +108,7 @@ async function cloneDevContainer(basePath: string) {
                 } as ConfirmQuestion);
                 console.log(answer)
                 if (answer.create) {
-                    await _createDevContainer(repo, path);
+                    await _createDevContainer(repo, repoUrl, path);
                 }
             }
         } else {
@@ -119,16 +119,11 @@ async function cloneDevContainer(basePath: string) {
     await exec(`code "${path}"`);
 }
 
-async function _createDevContainer(repo:string, path: string) {
+async function _createDevContainer(repo:string, repoUrl:string, path: string) {
     const p = repo.split('/', 2);
-    console.log(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
     await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
-
-    console.log('CREATED')
-    /*
     const git = simpleGit();
-    await git.clone(url, path);
-    */
+    await git.clone(repoUrl, path);
 }
 
 async function createDevContainer(basePath: string) {
