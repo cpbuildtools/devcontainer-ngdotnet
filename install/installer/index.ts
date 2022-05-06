@@ -126,9 +126,14 @@ async function _createDevContainer(repo:string, repoUrl:string, path: string) {
     await git.clone(repoUrl, path);
     git = simpleGit(path);
     await git.checkoutLocalBranch('main');
-    git.commit('Initial Commit');
-    git.push();
+
+    const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
+
+    await exec(`docker pull ${dockerImage}`);
+    await exec(`docker run ${dockerImage} -v \${PWD}:/output ./create.sh`);
+    
 }
+
 
 async function createDevContainer(basePath: string) {
    
