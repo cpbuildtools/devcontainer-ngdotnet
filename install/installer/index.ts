@@ -130,7 +130,7 @@ async function _createDevContainer(repo:string, repoUrl:string, path: string) {
     const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
 
     await exec(`docker pull ${dockerImage}`);
-    await exec(`docker run -v \${PWD}:/output ${dockerImage} ./create.sh`);
+    await exec(`docker exec -v \${PWD}:/output ${dockerImage} ./create.sh`);
     
 }
 
