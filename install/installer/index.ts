@@ -19,7 +19,7 @@ import { wingetPackages } from './winget-packages.js';
 
 import simpleGit, { GitError } from 'simple-git';
 import { exec } from './util/cmd.js';
-import {Octokit} from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
 
 const gh = new Octokit({
     auth: process.env.GITHUB_TOKEN,
@@ -119,7 +119,7 @@ async function cloneDevContainer(basePath: string) {
     await exec(`code "${path}"`);
 }
 
-async function _createDevContainer(repo:string, repoUrl:string, path: string) {
+async function _createDevContainer(repo: string, repoUrl: string, path: string) {
     const p = repo.split('/', 2);
     await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
     let git = simpleGit();
@@ -128,14 +128,16 @@ async function _createDevContainer(repo:string, repoUrl:string, path: string) {
     await git.checkoutLocalBranch('main');
 
     const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
-    
-    await exec(`docker run --pull always --rm -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`);
-    
+
+    await exec(
+        `docker run --pull always --rm -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
+        { cwd: path }
+    );
 }
 
 
 async function createDevContainer(basePath: string) {
-   
+
 }
 async function loadDevContainer(basePath: string) {
 }
