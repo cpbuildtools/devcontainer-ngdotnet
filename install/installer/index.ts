@@ -100,7 +100,7 @@ async function cloneDevContainer(basePath: string) {
     } catch (e) {
         if (e instanceof GitError) {
             console.log('GitError => ', e.message);
-            if (e.name.indexOf('Repository not found.') !== -1) {
+            if (e.message.indexOf('Cloning into') !== -1) {
                 console.log('Repository not found!!!!!!!!!!!!!');
                 const answer = await inquirer.prompt({
                     type: 'confirm',
