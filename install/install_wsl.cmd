@@ -4,11 +4,11 @@ winget list Canonical.Ubuntu.2004 || winget install Canonical.Ubuntu.2004 --acce
 rem Get the file name of the ubuntu executable
 for /f "delims=" %%a in ('dir /b %userprofile%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows*') do set "ubuntuFile=%%a"
 start %userprofile%\AppData\Local\Microsoft\WindowsApps\%ubuntuFile%\ubuntu2004.exe
-echo
-echo
+echo :
+echo :
 echo Complete the ubuntu setup in the ubuntu terminal. Once ubuntu is set up return to this window.
-echo
-echo
+echo :
+echo :
 pause
 
 wsl -t Ubuntu-20.04
