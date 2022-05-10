@@ -15,7 +15,7 @@
   1. Open a cmd terminal as Administrator
   1. Run:  
      ```
-     curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_win10.cmd > install.cmd && install.cmd
+     curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_win_10.cmd > install.cmd && install.cmd
      ``` 
 
 ## Windows 11
@@ -31,5 +31,5 @@
   1. Open a cmd terminal as Administrator
   1. Run:  
      ```
-     curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_win10.cmd > install.cmd && install.cmd
+     curl --ssl https://raw.githubusercontent.com/cpbuildtools/devcontainer-ngdotnet/release/latest/install/install_win_11.cmd > install.cmd && install.cmd
      ``` 
