@@ -134,7 +134,11 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
     console.info(chalk.gray('Docker is ready.'));
 
     await exec(
-        `docker run --pull always --rm -i -t -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
+        `ls -al`,
+        { cwd: path }
+    );
+    await exec(
+        `docker run --pull always --rm -i -t -v ./:/output -w /scripts ${dockerImage} ./create.sh`,
         { cwd: path }
     );
 }
