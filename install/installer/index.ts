@@ -134,7 +134,7 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
     console.info(chalk.gray('Docker is ready.'));
 
     await exec(
-        `ls -al`,
+        `echo \${PWD}`,
         { cwd: path }
     );
     await exec(
