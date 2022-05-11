@@ -138,7 +138,7 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
         { cwd: path }
     );
     await exec(
-        `docker run --pull always --rm -i -t -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
+        `docker run --pull always --rm -i -t -v \${PWD}:/scripts/output -w /scripts ${dockerImage} ./create.sh`,
         { cwd: path }
     );
 }
