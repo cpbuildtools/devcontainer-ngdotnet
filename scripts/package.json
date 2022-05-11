@@ -27,6 +27,7 @@
         "@angular-devkit/schematics": "^13.3.5",
         "case": "^1.6.3",
         "chokidar": "^3.5.3",
+        "cli-spinner": "^0.2.10",
         "tslib": "^2.3.0"
     }
 }
