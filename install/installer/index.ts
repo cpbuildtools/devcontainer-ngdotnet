@@ -387,5 +387,13 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             await initializeDocker(argv.appdata!);
             await initializeWsl();
         })
+        .command('do', 'initialize the dev env', yargs => {
+            return yargs
+               
+                ;
+
+        }, async argv => {
+            await initializeWsl();
+        })
         .parse();
 })();
