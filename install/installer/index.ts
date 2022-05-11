@@ -128,6 +128,10 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
     await git.checkoutLocalBranch('main');
 
     const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
+    
+    console.info(chalk.gray('Waiting for docker...'));
+    await waitForDockerInit();
+    console.info(chalk.gray('Docker is ready.'));
 
     await exec(
         `docker run --pull always --rm -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
