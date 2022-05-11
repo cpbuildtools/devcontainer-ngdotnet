@@ -1,0 +1,44 @@
+{
+    "name": "<%= title %>",
+    "remoteUser": "vscode",
+    "workspaceFolder": "/home/vscode/devcontainer/workspaces",
+    "service": "devcontainer",
+    "dockerComposeFile": [
+        "./docker-compose.yml"
+    ],
+    "remoteEnv": {
+        "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}/workspaces",
+        "WORKSPACE": "${localWorkspaceFolder}/workspaces",
+        "PROJECTS": "${localWorkspaceFolder}/projects"
+    },
+    "initializeCommand": "docker pull ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest",
+    "postCreateCommand": "cd /scripts && pnpm run postCreate",
+    "onCreateCommand": "cd /scripts && pnpm run onCreate",
+    "postAttachCommand": "cd /scripts && pnpm run postAttach",
+    "postStartCommand": "cd /scripts && nohup bash -c 'pnpm run postStart >> /proc/1/fd/1 &'",
+    "updateContentCommand": "cd /scripts && pnpm run updateContent",
+    "settings": {
+        "git.defaultCloneDirectory": "/home/vscode/devcontainer/projects"
+    },
+    "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-dotnettools.csharp",
+        "jongrant.csharpsortusings",
+        "hediet.vscode-drawio",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml",
+        "angular.ng-template",
+        "alexiv.vscode-angular2-files",
+        "gkalpak.aio-docs-utils",
+        "dbaeumer.vscode-eslint",
+        "ajithgopi.css-snippets",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker",
+        "GitHub.vscode-pull-request-github",
+        "johnpapa.vscode-peacock",
+        "formulahendry.auto-rename-tag",
+        "42Crunch.vscode-openapi"
+    ]
+}

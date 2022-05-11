@@ -1,2 +1,6 @@
 **/node_modules/
 /tmp
+/scripts/output
+/scripts/schematics/**/*.js
+/scripts/schematics/**/*.js.map
+/scripts/schematics/**/*.d.ts

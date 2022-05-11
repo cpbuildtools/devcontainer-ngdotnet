@@ -17,4 +17,4 @@ services:
         NODE_VERSION: 16
     command: ./create.sh
     volumes:
-      - ${PWD}:/output
+      - ${PWD}:/scripts/output

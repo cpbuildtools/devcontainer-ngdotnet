@@ -1,0 +1,11 @@
+{
+    "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+    "schematics": {
+      "create-dev-container": {
+        "description": "creates a new devcontainer from template",
+        "factory": "./create-dev-container/index",
+        "schema": "./create-dev-container/schema.json",
+        "aliases": ["create"]
+      }
+    }
+  }
