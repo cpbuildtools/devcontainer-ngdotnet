@@ -19,7 +19,7 @@ import { wingetPackages } from './winget-packages.js';
 
 import simpleGit, { GitError } from 'simple-git';
 import { exec } from './util/cmd.js';
-import {Octokit} from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
 
 const gh = new Octokit({
     auth: process.env.GITHUB_TOKEN,
@@ -99,15 +99,14 @@ async function cloneDevContainer(basePath: string) {
         await git.clone(repoUrl, path);
     } catch (e) {
         if (e instanceof GitError) {
-            console.log('GitError => ', e.message);
             if (e.message.indexOf('Cloning into') !== -1) {
-                console.log('Repository not found!!!!!!!!!!!!!');
                 const answer = await inquirer.prompt({
                     type: 'confirm',
                     name: 'create',
+                    message: 'Repository does not exist. Create it?',
                     default: true
                 } as ConfirmQuestion);
-                console.log(answer);
+                console.log(answer)
                 if (answer.create) {
                     await _createDevContainer(repo, repoUrl, path);
                 }
@@ -120,23 +119,25 @@ async function cloneDevContainer(basePath: string) {
     await exec(`code "${path}"`);
 }
 
-async function _createDevContainer(repo:string, url:string, path: string) {
+async function _createDevContainer(repo: string, repoUrl: string, path: string) {
     const p = repo.split('/', 2);
+    await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
+    let git = simpleGit();
+    await git.clone(repoUrl, path);
+    git = simpleGit(path);
+    await git.checkoutLocalBranch('main');
 
-    const r = await gh.repos.createInOrg({
-        org: p[0],
-        name: url,
-        description: 'Personal Angular + .Net Devlopment Cocntainer',
-        private: true,
+    const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
 
-    });
-    console.log(r.status,r);
-    const git = simpleGit();
-    await git.clone(url, path);
+    await exec(
+        `docker run --pull always --rm -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
+        { cwd: path }
+    );
 }
 
+
 async function createDevContainer(basePath: string) {
-   
+
 }
 async function loadDevContainer(basePath: string) {
 }

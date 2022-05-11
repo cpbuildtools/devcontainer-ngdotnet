@@ -1,10 +1,10 @@
 import { spawn } from 'child_process';
 
 
-export function exec(cmd: string): Promise<number> {
+export function exec(cmd: string, { cwd }: { cwd?: string } = {}): Promise<number> {
     return new Promise((res, rej) => {
         try {
-            const child = spawn(cmd, { shell: true, stdio: 'inherit' });
+            const child = spawn(cmd, { shell: true, stdio: 'inherit', cwd });
             child.on('exit', (code) => {
                 res(code ?? 0);
             });
@@ -16,12 +16,12 @@ export function exec(cmd: string): Promise<number> {
 }
 
 
-export function run(cmd: string): Promise<string> {
+export function run(cmd: string, { cwd }: { cwd?: string } = {}): Promise<string> {
     return new Promise((res, rej) => {
         try {
             let data: string[] = [];
-       
-            const child = spawn(cmd, { shell: true, stdio: 'pipe' });
+
+            const child = spawn(cmd, { shell: true, stdio: 'pipe', cwd });
             child.on('exit', (code) => {
                 let d = data.join('');
                 if (code === 0) {

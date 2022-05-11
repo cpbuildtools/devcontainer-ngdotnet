@@ -7,9 +7,13 @@
         "postAttach": "echo postAttach",
         "postStart": "nohup bash -c 'pnpm run start &'",
         "updateContent": "echo updateContent",
-        "start": "ts-node start.ts"
+        "start": "ts-node start.ts",
+        "schematics:build": "tsc -p tsconfig.schematics.json",
+        "schematics:create": "schematics ./:create --debug false"
     },
+    "schematics": "./schematics/collection.json",
     "devDependencies": {
+        "@angular-devkit/schematics-cli": "^13.3.5",
         "@types/glob-watcher": "^5.0.2",
         "@types/node": "16.11.31",
         "glob-watcher": "^5.0.5",
@@ -19,6 +23,10 @@
         "typescript": "4.6.3"
     },
     "dependencies": {
-        "chokidar": "^3.5.3"
+        "@angular-devkit/core": "^13.3.5",
+        "@angular-devkit/schematics": "^13.3.5",
+        "case": "^1.6.3",
+        "chokidar": "^3.5.3",
+        "tslib": "^2.3.0"
     }
 }

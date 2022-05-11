@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  devcontainer:
+    image: ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest
+    container_name: 'devenv-<%= id %>'
+    user: "vscode:vscode"
+    init: true
+    environment:
+      GITHUB_USER: ${GITHUB_USER}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    volumes:
+      # docker connection
+      - /var/run/docker.sock:/var/run/docker-host.sock
+      # link devcontainer
+      - ../:/home/vscode/devcontainer
+
+      #caches
+      - bashhistory:/commandhistory
+      - extensions:/home/vscode/.vscode-server/extensions
+      - extensions-insiders:/home/vscode/.vscode-server-insiders/extensions
+
+      #package caches
+      - nuget:/home/vscode/.nuget/packages
+      - npm:/home/vscode/.npm
+volumes:
+  bashhistory:
+  extensions:
+  extensions-insiders:
+  nuget:
+  pnpm:
+  npm:
+  yarn:
