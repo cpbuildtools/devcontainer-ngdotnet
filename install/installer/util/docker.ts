@@ -39,11 +39,13 @@ export async function getDockerConfigPath(appdata: string) {
 }
 
 export async function waitForDockerInit() {
-    let code = 1;
-    while (code) {
+    let found = false;
+    while (!found) {
         try {
-            code = await exec('docker info');
+            await run('docker info');
+            found = true;
+        } catch { 
             await sleep(250);
-        } catch { }
+        }
     }
 }
