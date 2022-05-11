@@ -15,6 +15,7 @@ export async function getDockerDesktopPath() {
     const path = await translateWindowsPath('C:\\Program Files\\Docker\\Docker');
     return path;
 }
+
 export async function startDockerDesktop(appdata: string) {
     try {
         const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe" &`;
@@ -32,19 +33,36 @@ export async function startDockerDesktop(appdata: string) {
     }
 }
 
-
 export async function getDockerConfigPath(appdata: string) {
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     return join(appdataPath, 'Docker', 'settings.json');
 }
 
 export async function waitForDockerInit() {
-    let found = false;
-    while (!found) {
+    let c = 0;
+    const headerDelay = 5;
+
+    while (c !== -1) {
         try {
+            if (c < headerDelay) {
+                c++;
+            } else if (c === headerDelay) {
+                console.info();
+                console.info(chalk.yellow('********************************************************************'))
+                console.info(chalk.yellow('* Waiting for access to docker                                     *'))
+                console.info(chalk.yellow('*                                                                  *'))
+                console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
+                console.info(chalk.yellow('* the service if nessisarry                                        *'))
+                console.info(chalk.yellow('********************************************************************'))
+                console.info();
+                c++;
+            }
             await run('docker info');
-            found = true;
-        } catch { 
+            if (c >= headerDelay) {
+                console.info(chalk.grey('Docker is ready.'))
+            }
+            c = -1;
+        } catch {
             await sleep(250);
         }
     }
