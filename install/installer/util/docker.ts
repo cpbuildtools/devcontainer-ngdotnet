@@ -55,7 +55,7 @@ export async function killDocker() {
 
 export async function waitForDockerInit(isRestart:boolean=false) {
     let c = 0;
-    const headerDelay = isRestart ? 40 : 4;
+    const headerDelay = isRestart ? 120 : 4;
 
     while (c !== -1) {
         try {
