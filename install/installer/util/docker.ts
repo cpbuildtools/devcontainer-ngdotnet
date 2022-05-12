@@ -46,7 +46,12 @@ export async function getDockerConfigPath(appdata: string) {
 }
 
 export async function killDocker() {
-    return await run('taskkill.exe /IM "Docker Desktop.exe" /F');
+    try {
+        return await run('taskkill.exe /IM "Docker Desktop.exe" /F');
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 export async function waitForDockerInit() {
