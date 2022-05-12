@@ -74,7 +74,7 @@ async function cloneDevContainer(basePath: string) {
         type: 'input',
         name: 'repo',
         message: 'Repository to clone:',
-        default: `${user}/ngdotnet-devcontainer`
+        default: `${user}/devcontainer-ng-dotnet`
     } as InputQuestion);
 
     let repo = answer.repo as string;
