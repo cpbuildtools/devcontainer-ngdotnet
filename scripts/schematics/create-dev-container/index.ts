@@ -6,8 +6,14 @@ import { title, kebab } from 'case';
 
 export default function (options: Schema): Rule {
     console.log('options', options);
-
-    let id = kebab(options.name);
+    const [owner,repo] = options.githubRepo.split('/');
+    
+    console.log('owner:', owner);
+    console.log('repo:', repo);
+    
+    let id = kebab(repo);
+    console.log('id:', id);
+    
     if (
         id.startsWith('devcontainer-') ||
         id.startsWith('devenv-') || 
@@ -16,7 +22,12 @@ export default function (options: Schema): Rule {
         const p = id.split('-');
         p.shift();
         id = p.join('-');
+        console.log('id:', id);
     }
+
+    id =  kebab(`${owner}-${id}`);
+    console.log('id:', id);
+    console.log('title:', title(id));
 
     return mergeWith(apply(url('./files'), [
         applyTemplates({

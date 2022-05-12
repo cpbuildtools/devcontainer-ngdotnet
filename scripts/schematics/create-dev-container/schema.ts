@@ -1,5 +1,5 @@
 
 export interface Schema {
-    name: string;
+    githubRepo: string;
     directory: string;
 }

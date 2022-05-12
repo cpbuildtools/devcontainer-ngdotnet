@@ -9,14 +9,14 @@
         "description": "directory",
         "default": "/output"
       },
-      "name": {
+      "githubRepo": {
         "type": "string",
-        "description": "Name of the devcontainer",
+        "description": "Github repo [owner/repo]",
         "x-prompt": {
-          "message": "Name of the devcontainer:",
+          "message": "Github repo [owner/repo] :",
           "type": "input"
         }
       }
     },
-    "required": ["name"]
+    "required": ["githubRepo"]
   }
