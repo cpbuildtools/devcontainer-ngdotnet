@@ -139,11 +139,11 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
     await waitForDockerInit();
 
     await exec(
-        `docker run --pull always --rm -i -t -v \${PWD}:/scripts/output -w /scripts ${dockerImage} ./create.sh --name ${name}`,
+        `docker run --pull always --rm -i -t -v \${PWD}:/scripts/output -w /scripts ${dockerImage} ./create.sh -- --name="${name}"`,
         { cwd: path }
     );
 }
-//docker run --pull always --rm -i -t -v ${PWD}:/output -w /scripts ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest ./create.sh
+//docker run --pull always --rm -i -t -v ${PWD}:/scripts/output -w /scripts ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest ./create.sh -- --name="MyCont"
 
 async function createDevContainer(basePath: string) {
     
