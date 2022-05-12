@@ -53,25 +53,27 @@ export async function killDocker() {
     }
 }
 
-export async function waitForDockerInit(isRestart:boolean=false) {
+export async function waitForDockerInit(isRestart: boolean = false) {
     let c = 0;
-    const headerDelay = isRestart ? 120 : 4;
+    const headerDelay = isRestart ? 60 : 8;
 
     while (c !== -1) {
         try {
             if (c < headerDelay) {
                 c++;
             } else if (c === headerDelay) {
-                if(isRestart){
+                if (isRestart) {
                     console.info();
                     console.info(chalk.yellow('********************************************************************'))
-                    console.info(chalk.yellow('* Waiting for docker to restart                                    *'))
+                    console.info(chalk.yellow('* Waiting for docker to restart...                                 *'))
                     console.info(chalk.yellow('*                                                                  *'))
                     console.info(chalk.yellow('* If it fails to start automatically make sure it is running       *'))
-                    console.info(chalk.yellow('* and if nessisarry execute a restart from the taskbar menu        *'))
+                    console.info(chalk.yellow('* and if nessisarry execute a restart from the taskbar menu.       *'))
+                    console.info(chalk.yellow('*                                                                  *'))
+                    console.info(chalk.yellow('* Sure is taking it\'s time          (╯°□°)╯︵ ┻━┻                 *'))
                     console.info(chalk.yellow('********************************************************************'))
                     console.info();
-                }else{
+                } else {
                     console.info();
                     console.info(chalk.yellow('********************************************************************'))
                     console.info(chalk.yellow('* Waiting for access to docker                                     *'))
@@ -85,7 +87,11 @@ export async function waitForDockerInit(isRestart:boolean=false) {
             }
             await run('docker info');
             if (c >= headerDelay) {
-                console.info(chalk.grey('Docker is ready.'))
+                if (isRestart) {
+                    console.info(chalk.grey('Docker is ready.                     ┬─┬ノ(º_ºノ)'));
+                } else {
+                    console.info(chalk.grey('Docker is ready.'));
+                }
             }
             c = -1;
         } catch {
