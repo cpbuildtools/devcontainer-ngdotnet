@@ -143,6 +143,7 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
         { cwd: path }
     );
 }
+
 //docker run --pull always --rm -i -t -v ${PWD}:/scripts/output -w /scripts ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest ./create.sh -- --name="MyCont"
 
 async function createDevContainer(basePath: string) {
