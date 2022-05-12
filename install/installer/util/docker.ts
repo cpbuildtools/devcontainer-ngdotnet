@@ -21,7 +21,6 @@ export async function startDockerDesktop(appdata: string) {
         const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe" &`;
         await exec(cmd);
         const dockerConfigPath = await getDockerConfigPath(appdata);
-        console.log('Waiting for:', dockerConfigPath)
         while (!existsSync(dockerConfigPath)) {
             await sleep(500);
         }
@@ -37,7 +36,7 @@ export async function restartDocker(appdata: string) {
     console.info(chalk.gray('Restarting Dokcer Desktop...'));
     await killDocker();
     await startDockerDesktop(appdata);
-    await waitForDockerInit();
+    await waitForDockerInit(true);
 }
 
 export async function getDockerConfigPath(appdata: string) {
@@ -54,23 +53,34 @@ export async function killDocker() {
     }
 }
 
-export async function waitForDockerInit() {
+export async function waitForDockerInit(isRestart:boolean=false) {
     let c = 0;
-    const headerDelay = 5;
+    const headerDelay = isRestart ? 40 : 4;
 
     while (c !== -1) {
         try {
             if (c < headerDelay) {
                 c++;
             } else if (c === headerDelay) {
-                console.info();
-                console.info(chalk.yellow('********************************************************************'))
-                console.info(chalk.yellow('* Waiting for access to docker                                     *'))
-                console.info(chalk.yellow('*                                                                  *'))
-                console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
-                console.info(chalk.yellow('* the service if nessisarry                                        *'))
-                console.info(chalk.yellow('********************************************************************'))
-                console.info();
+                if(isRestart){
+                    console.info();
+                    console.info(chalk.yellow('********************************************************************'))
+                    console.info(chalk.yellow('* Waiting for docker to restart                                    *'))
+                    console.info(chalk.yellow('*                                                                  *'))
+                    console.info(chalk.yellow('* If it fails to start automatically make sure it is running       *'))
+                    console.info(chalk.yellow('* and if nessisarry execute a restart from the taskbar menu        *'))
+                    console.info(chalk.yellow('********************************************************************'))
+                    console.info();
+                }else{
+                    console.info();
+                    console.info(chalk.yellow('********************************************************************'))
+                    console.info(chalk.yellow('* Waiting for access to docker                                     *'))
+                    console.info(chalk.yellow('*                                                                  *'))
+                    console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
+                    console.info(chalk.yellow('* the service if nessisarry                                        *'))
+                    console.info(chalk.yellow('********************************************************************'))
+                    console.info();
+                }
                 c++;
             }
             await run('docker info');
