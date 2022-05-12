@@ -24,53 +24,55 @@ export async function syncWorkspaceWithProjects(workspaceFile: string) {
 
         console.info('Syncronizing Workspace:', workspacePath);
         console.group();
-        
+
         const workspace = await readWorkspace(workspacePath);
 
         for (const proj of workspace.folders) {
-            const projectPath = join(workspaceDir, proj.path);
-            console.info("Syncronizing Project:", projectPath);
-            console.group();
-            let projectPathExists = existsSync(projectPath) && (await readdir(projectPath)).length !== 0;
-            
-            let repoUri = proj.repository;
+            if (proj.path.startsWith('../projects/')) {
+                const projectPath = join(workspaceDir, proj.path);
+                console.info("Syncronizing Project:", projectPath);
+                console.group();
+                let projectPathExists = existsSync(projectPath) && (await readdir(projectPath)).length !== 0;
 
-            if (!projectPathExists && repoUri) {
-                console.info("Cloning", repoUri, 'to', projectPath);
-                await mkdir(projectPath, { recursive: true });
-                const git = simpleGit();
-                await git.clone(repoUri, projectPath);
-                console.info(repoUri, 'cloned.');
-            } else if (projectPathExists && !repoUri) {
-                const git = simpleGit(projectPath);
-                if (await git.checkIsRepo()) {
-                    const remote = (await git.getRemotes(true)).find(r => r.name === 'origin');
-                    if (remote) {
-                        console.info("Adding", remote.refs.fetch, 'to workspace', workspacePath);
-                        proj.repository = remote.refs.fetch;
-                        workspaceChanged = true;
-                    }
-                }
-            } else if (projectPathExists && repoUri) {
-                // make sure the origin repo matches workspace file, origin wins
-                const git = simpleGit(projectPath);
-                if (await git.checkIsRepo()) {
-                    const remote = (await git.getRemotes(true)).find(r => r.name === 'origin');
-                    if (remote) {
-                        if (proj.repository !== remote.refs.fetch) {
-                            console.info("Updating", repoUri, 'to', remote.refs.fetch, 'in workspace', workspacePath);
+                let repoUri = proj.repository;
+
+                if (!projectPathExists && repoUri) {
+                    console.info("Cloning", repoUri, 'to', projectPath);
+                    await mkdir(projectPath, { recursive: true });
+                    const git = simpleGit();
+                    await git.clone(repoUri, projectPath);
+                    console.info(repoUri, 'cloned.');
+                } else if (projectPathExists && !repoUri) {
+                    const git = simpleGit(projectPath);
+                    if (await git.checkIsRepo()) {
+                        const remote = (await git.getRemotes(true)).find(r => r.name === 'origin');
+                        if (remote) {
+                            console.info("Adding", remote.refs.fetch, 'to workspace', workspacePath);
                             proj.repository = remote.refs.fetch;
                             workspaceChanged = true;
                         }
-                    } else {
-                        console.info("Adding remote origin to", repoUri);
-                        await git.addRemote('origin', repoUri);
                     }
-                } else {
-                    console.warn(projectPath, 'is not a repo but should point to', repoUri);
+                } else if (projectPathExists && repoUri) {
+                    // make sure the origin repo matches workspace file, origin wins
+                    const git = simpleGit(projectPath);
+                    if (await git.checkIsRepo()) {
+                        const remote = (await git.getRemotes(true)).find(r => r.name === 'origin');
+                        if (remote) {
+                            if (proj.repository !== remote.refs.fetch) {
+                                console.info("Updating", repoUri, 'to', remote.refs.fetch, 'in workspace', workspacePath);
+                                proj.repository = remote.refs.fetch;
+                                workspaceChanged = true;
+                            }
+                        } else {
+                            console.info("Adding remote origin to", repoUri);
+                            await git.addRemote('origin', repoUri);
+                        }
+                    } else {
+                        console.warn(projectPath, 'is not a repo but should point to', repoUri);
+                    }
                 }
+                console.groupEnd();
             }
-            console.groupEnd();
         }
         if (workspaceChanged) {
             await saveWorkspace(workspacePath, workspace);
