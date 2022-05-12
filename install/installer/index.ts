@@ -8,7 +8,7 @@ import { join } from 'path/posix';
 import { exit } from 'process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { dockerLogin, startDockerDesktop, waitForDockerInit } from './util/docker.js';
+import { dockerLogin, restartDocker, startDockerDesktop, waitForDockerInit } from './util/docker.js';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { readJsonFile, writeJsonFile } from './util/json.js';
@@ -170,7 +170,7 @@ async function initializeDocker(appdata: string) {
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
 
-    await waitForDockerInit();
+    await restartDocker(appdata);
 
     const user = getEnv('GITHUB_USER')!;
     const token = getEnv('GITHUB_TOKEN')!;
@@ -338,7 +338,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             if (!argv.coreOnly) {
                 await installOptionalWinApps();
             }
-            await startDockerDesktop(argv.appdata!);
+            await restartDocker(argv.appdata!);
         })
         .command('update', 'update the dependancies for devcontainers', yargs => {
             return yargs

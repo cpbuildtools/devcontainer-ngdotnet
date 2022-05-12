@@ -33,9 +33,20 @@ export async function startDockerDesktop(appdata: string) {
     }
 }
 
+export async function restartDocker(appdata: string) {
+    console.info(chalk.gray('Restarting Dokcer Desktop...'));
+    await killDocker();
+    await startDockerDesktop(appdata);
+    await waitForDockerInit();
+}
+
 export async function getDockerConfigPath(appdata: string) {
     const appdataPath = (await translateWindowsPath(appdata)).trim();
     return join(appdataPath, 'Docker', 'settings.json');
+}
+
+export async function killDocker() {
+    return await run('taskkill.exe /IM "Docker Desktop.exe" /F');
 }
 
 export async function waitForDockerInit() {
