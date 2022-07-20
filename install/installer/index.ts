@@ -106,13 +106,11 @@ async function cloneDevContainer(basePath: string) {
                     message: 'Repository does not exist. Create it?',
                     default: true
                 } as ConfirmQuestion);
-                console.log(answer)
                 if (answer.create) {
                     await _createDevContainer(repo, repoUrl, path);
                 }
             }
         } else {
-            console.log('Other Error => ', e);
             throw e;
         }
     }

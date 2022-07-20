@@ -5,7 +5,6 @@ import { Schema } from "./schema";
 import { title, kebab } from 'case';
 
 export default function (options: Schema): Rule {
-    console.log('options', options);
     return mergeWith(apply(url('./files'), [
         applyTemplates({
             utils: strings,

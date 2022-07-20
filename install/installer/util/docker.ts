@@ -20,12 +20,9 @@ export async function startDockerDesktop(appdata: string) {
         const cmd = `"${await getDockerDesktopPath()}/Docker Desktop.exe" &`;
         await exec(cmd);
         const dockerConfigPath = await getDockerConfigPath(appdata);
-        console.log('Waiting for:', dockerConfigPath)
         while (!existsSync(dockerConfigPath)) {
             await sleep(500);
         }
-        console.log('found', dockerConfigPath);
-
     } catch (e) {
         console.error(e);
         throw e;

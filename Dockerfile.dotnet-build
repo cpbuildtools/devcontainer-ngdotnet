@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+# install nodejs
+RUN curl --silent --location https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y \
+    nodejs
+RUN npm i -g yarn pnpm
+
+# jre wont install unless man folder is created ...
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get update -y && apt-get install -y \
+    default-jre
