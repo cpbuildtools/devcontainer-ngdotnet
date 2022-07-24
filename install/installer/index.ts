@@ -8,7 +8,7 @@ import { join } from 'path/posix';
 import { exit } from 'process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { dockerLogin, startDockerDesktop, waitForDockerInit } from './util/docker.js';
+import { dockerLogin, restartDocker, startDockerDesktop, waitForDockerInit } from './util/docker.js';
 import { getEnv, setWindowsEnv } from './util/env.js';
 import { getConfig, setConfig } from './util/git.js';
 import { readJsonFile, writeJsonFile } from './util/json.js';
@@ -74,7 +74,7 @@ async function cloneDevContainer(basePath: string) {
         type: 'input',
         name: 'repo',
         message: 'Repository to clone:',
-        default: `${user}/ngdotnet-devcontainer`
+        default: `${user}/devcontainer-ng-dotnet`
     } as InputQuestion);
 
     let repo = answer.repo as string;
@@ -114,11 +114,18 @@ async function cloneDevContainer(basePath: string) {
             throw e;
         }
     }
-    await exec(`code "${path}"`);
+   await launchVSCode(path);
+}
+
+
+async function launchVSCode(devContainerPath:string, workspaceFile?:string) {
+    //await exec(`code "${path}"`);
 }
 
 async function _createDevContainer(repo: string, repoUrl: string, path: string) {
     const p = repo.split('/', 2);
+    const owner = p[0];
+    const name = p[1];
     await exec(`gh.exe repo create ${repo} --private --description "Personal Angular + .Net Devlopment Cocntainer"`)
     let git = simpleGit();
     await git.clone(repoUrl, path);
@@ -127,15 +134,18 @@ async function _createDevContainer(repo: string, repoUrl: string, path: string) 
 
     const dockerImage = 'ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest';
 
+    await waitForDockerInit();
+
     await exec(
-        `docker run --pull always --rm -v \${PWD}:/output -w /scripts ${dockerImage} ./create.sh`,
+        `docker run --pull always --rm -i -t -v \${PWD}:/scripts/output -w /scripts ${dockerImage} ./create.sh -- --name="${name}"`,
         { cwd: path }
     );
 }
 
+//docker run --pull always --rm -i -t -v ${PWD}:/scripts/output -w /scripts ghcr.io/cpbuildtools/devcontainer-ngdotnet/devcontainer-ngdotnet:latest ./create.sh -- --name="MyCont"
 
 async function createDevContainer(basePath: string) {
-
+    
 }
 async function loadDevContainer(basePath: string) {
 }
@@ -158,17 +168,7 @@ async function initializeDocker(appdata: string) {
     dockerConfig.integratedWslDistros = integratedWslDistros;
     await writeJsonFile(dockerConfigPath, dockerConfig);
 
-    console.info();
-    console.info(chalk.yellow('********************************************************************'))
-    console.info(chalk.yellow('* Waiting for access to docker                                     *'))
-    console.info(chalk.yellow('*                                                                  *'))
-    console.info(chalk.yellow('* Please make sure that docker desktop is running and restart      *'))
-    console.info(chalk.yellow('* the service if nessisarry                                        *'))
-    console.info(chalk.yellow('********************************************************************'))
-    console.info();
-
-    await waitForDockerInit();
-    console.info(chalk.gray('Docker is ready.'));
+    await restartDocker(appdata);
 
     const user = getEnv('GITHUB_USER')!;
     const token = getEnv('GITHUB_TOKEN')!;
@@ -336,7 +336,7 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
             if (!argv.coreOnly) {
                 await installOptionalWinApps();
             }
-            await startDockerDesktop(argv.appdata!);
+            await restartDocker(argv.appdata!);
         })
         .command('update', 'update the dependancies for devcontainers', yargs => {
             return yargs
@@ -383,6 +383,14 @@ async function configure(args: { name?: string, email?: string, "github-user"?: 
 
         }, async argv => {
             await initializeDocker(argv.appdata!);
+            await initializeWsl();
+        })
+        .command('do', 'initialize the dev env', yargs => {
+            return yargs
+               
+                ;
+
+        }, async argv => {
             await initializeWsl();
         })
         .parse();
