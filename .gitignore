@@ -4,3 +4,4 @@
 /scripts/schematics/**/*.js
 /scripts/schematics/**/*.js.map
 /scripts/schematics/**/*.d.ts
+**/.pnpm-store/

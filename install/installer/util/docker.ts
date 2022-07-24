@@ -24,8 +24,6 @@ export async function startDockerDesktop(appdata: string) {
         while (!existsSync(dockerConfigPath)) {
             await sleep(500);
         }
-        console.log('found', dockerConfigPath);
-
     } catch (e) {
         console.error(e);
         throw e;

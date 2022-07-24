@@ -1,0 +1,10 @@
+{
+    "name":"<%= id %>",
+    "scripts": {
+        "postCreateCommand": "",
+        "onCreateCommand": "",
+        "postAttachCommand": "",
+        "postStartCommand": "",
+        "updateContentCommand": ""
+    }
+}

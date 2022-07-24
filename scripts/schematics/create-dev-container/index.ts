@@ -5,6 +5,7 @@ import { Schema } from "./schema";
 import { title, kebab } from 'case';
 
 export default function (options: Schema): Rule {
+
     console.log('options', options);
     const [owner,repo] = options.githubRepo.split('/');
     
@@ -42,6 +43,5 @@ export default function (options: Schema): Rule {
 
         },
         move(options.directory),
-
     ]));
 }

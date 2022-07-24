@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
+
+RUN apt-get update && apt-get install -y \
+    unixodbc \
+    unixodbc-dev \
+	procps \
+	curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
+	&& apt --fix-broken install
+
+WORKDIR /vsdbg
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+            unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
+WORKDIR /app
+EXPOSE 80

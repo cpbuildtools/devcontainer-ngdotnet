@@ -20,13 +20,13 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 echo Enabling Virtual Machine Platform (this could also take a while)...
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 
-echo :
-echo :
-echo :
+echo.
+echo.
+echo.
 echo Enabled Windows Subsystem for Linux. Please restart your computer and run this script again.
-echo :
-echo :
-echo :
+echo.
+echo.
+echo.
 pause
 
 goto end
