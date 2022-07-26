@@ -44,6 +44,8 @@ RUN npm install -g \
     @angular/cli \
     cordova
 
+RUN SHELL=bash pnpm setup
+
 ####################
 # Android
 ####################
@@ -150,14 +152,38 @@ ENV DEBIAN_FRONTEND=dialog
 # Scripts
 ####################
 USER vscode
+SHELL ["/bin/bash", "-c"]
+RUN SHELL=bash pnpm setup
+
+ENV PNPM_HOME="/home/vscode/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
 WORKDIR /scripts
 
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
-RUN sudo chown -R vscode:vscode .
+#RUN sudo chown -R vscode:vscode .
 RUN pnpm i
 COPY scripts .
-RUN sudo chown -R vscode:vscode .
+#RUN sudo chown -R vscode:vscode .
+RUN sudo chown vscode:vscode ./create.sh
 RUN chmod +x create.sh
+
+####################
+# Container Cli
+####################
+USER vscode
+WORKDIR /container-cli
+
+
+
+COPY container-cli/package.json container-cli/pnpm-lock.yaml ./
+RUN sudo chown -R vscode:vscode .
+RUN pnpm i
+COPY container-cli .
+RUN sudo chown -R vscode:vscode .
+RUN /bin/bash --login -c "pnpm link --global"
+
+#RUN chmod +x create.sh
 
 ####################
 # Startup
