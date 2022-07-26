@@ -1,0 +1,9 @@
+{
+    "name": "@internal/test-dev-container",
+    "private": true,
+    "workspaces": [
+        "./projects/*",
+        "./packages/*"
+    ]
+
+}

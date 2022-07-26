@@ -1,0 +1,8 @@
+{
+    "name": "lib-e",
+    "private": true,
+    "dependencies": {
+        "lib-a" : "~1.0.0"
+    },
+    "devDependencies": {}
+}
