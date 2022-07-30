@@ -2,10 +2,9 @@
   "name": "@cpbuildtools/devcontainer-cli",
   "version": "0.1.0-alpha.0",
   "description": "",
-  "main": "index.ts",
+  "main": "./bin/ws-cli.ts",
   "bin": {
-    "ws-run": "./ws-run.ts",
-    "ws-exec": "./ws-exec.ts"
+    "ws": "./bin/ws-cli.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

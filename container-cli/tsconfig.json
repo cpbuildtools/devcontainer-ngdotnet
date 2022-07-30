@@ -1,5 +1,4 @@
 {
-
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES2020",
@@ -9,9 +8,6 @@
     "typeRoots": ["node_modules/@types"],
     "preserveSymlinks": true,
     "baseUrl": "./",
-    "paths": {
-      "util": ["./util"],
-      "util/*": ["./util/*"]
-    }
+    "paths": {}
   }
 }

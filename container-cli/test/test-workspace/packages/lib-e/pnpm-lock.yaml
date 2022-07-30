@@ -1,0 +1,7 @@
+lockfileVersion: 5.4
+
+specifiers:
+  lib-a: ~1.0.0
+
+dependencies:
+  lib-a: link:../../projects/lib-a

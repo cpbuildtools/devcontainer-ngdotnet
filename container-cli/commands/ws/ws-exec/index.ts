@@ -1,18 +1,19 @@
 import { Argv } from "yargs";
 import {Package, WorkspaceRunOptions} from '@cpbuildtools/dev-container-common'
 import Path from 'path/posix'
-export const command = "$0 <script-name>";
-export const describe = "Runs the script in each of the workspace sub-packages";
-
+export const command = "exec <cmd>";
+export const describe = "Executes the command in each of the workspace sub-packages";
 export const builder = (yargs: Argv) => {
     return yargs
       .option('parallel', {
         type: 'boolean',
+        alias: 'p',
         default: false,
         describe: '',
       })
       .option('order', {
         type: 'boolean',
+        alias: 'o',
         default: undefined,
         describe: '',
       })
@@ -39,7 +40,7 @@ export const builder = (yargs: Argv) => {
         type: 'string',
         default: '.',
         describe: '',
-      }).positional('script-name', {
+      }).positional('cmd', {
         type: 'string',
         demandOption: true,
         describe: '',
@@ -47,7 +48,6 @@ export const builder = (yargs: Argv) => {
   };
   
   export const handler = async (args: any) => {
-    console.log(args);
     const config:WorkspaceRunOptions = {
       parallel: args.parallel ?? false
     };
@@ -68,11 +68,10 @@ export const builder = (yargs: Argv) => {
       }
     }
 
-    
     const dir = Path.isAbsolute(args.dir) ? args.dir : Path.join(process.cwd(), args.dir);
-    console.log('dir:', dir);
-
     const pkg = await Package.load(dir);
-    const result = await pkg.workspaceRun(args.scriptName, config);
-    console.log(result);
+    const result = await pkg.workspaceExecute(args.cmd, config);
+    if(result.hasErrors){
+      process.exit(1);
+    }
   };
