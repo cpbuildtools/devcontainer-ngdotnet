@@ -37,12 +37,12 @@ RUN su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${N
 # Install node tooling 
 
 RUN npm install -g \
-    pnpm \
-    yarn \
-    typescript \
-    ts-node \
-    @angular/cli \
-    cordova
+  pnpm \
+  yarn \
+  typescript \
+  ts-node \
+  @angular/cli \
+  cordova
 
 RUN SHELL=bash pnpm setup
 
@@ -86,9 +86,9 @@ RUN sdkmanager --uninstall "build-tools;debian"
 
 # install Chrome for testing
 RUN sudo apt-get update \
-    && sudo apt-get install libxss1 libappindicator1 libindicator7 -y \
-    && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && sudo apt install ./google-chrome*.deb -y  	
+  && sudo apt-get install libxss1 libappindicator1 libindicator7 -y \
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && sudo apt install ./google-chrome*.deb -y  	
 
 RUN echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/00-local-userns.conf
 
@@ -127,25 +127,25 @@ RUN echo "#!/bin/sh\n\
 ########################################
 # Bash history
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
-    && mkdir /commandhistory \
-    && touch /commandhistory/.bash_history \
-    && chown -R vscode /commandhistory \
-    && echo $SNIPPET >> "/home/vscode/.bashrc"
+  && mkdir /commandhistory \
+  && touch /commandhistory/.bash_history \
+  && chown -R vscode /commandhistory \
+  && echo $SNIPPET >> "/home/vscode/.bashrc"
 
 # Extension cache 
 RUN mkdir -p /home/vscode/.vscode-server/extensions \
-    /home/vscode/.vscode-server-insiders/extensions \
+  /home/vscode/.vscode-server-insiders/extensions \
   && chown -R vscode \
-    /home/vscode/.vscode-server \
-    /home/vscode/.vscode-server-insiders
+  /home/vscode/.vscode-server \
+  /home/vscode/.vscode-server-insiders
 
 ####################
 # Cleanup
 ####################
 
 RUN apt-get autoremove -y \
-&& apt-get clean -y \
-&& rm -rf /var/lib/apt/lists/*
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=dialog
 
 ####################
@@ -173,8 +173,6 @@ RUN chmod +x create.sh
 ####################
 USER vscode
 WORKDIR /container-cli
-
-
 
 COPY container-cli/package.json container-cli/pnpm-lock.yaml ./
 RUN sudo chown -R vscode:vscode .
