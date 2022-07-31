@@ -7,7 +7,9 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NODE_VERSION: 16
+        - NODE_VERSION=16
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    
   create:
     image: devcontainer-ngdotnet:build
     build:
@@ -15,6 +17,7 @@ services:
       dockerfile: Dockerfile
       args:
         NODE_VERSION: 16
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
     command: ./create.sh
     volumes:
       - ${PWD}:/scripts/output

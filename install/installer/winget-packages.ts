@@ -1,4 +1,4 @@
-import { WingetPackage } from './util/winget.js';
+import { WingetPackage } from '@cpbuildtools/dev-container-common';
 
 export const wingetPackages: WingetPackage[] = [
     {

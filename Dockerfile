@@ -1,6 +1,8 @@
 
+
 FROM mcr.microsoft.com/vscode/devcontainers/dotnet:6.0-focal as base
 ARG NODE_VERSION="16"
+ARG GITHUB_TOKEN
 # Configure apt
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -174,9 +176,13 @@ RUN chmod +x create.sh
 USER vscode
 WORKDIR /container-cli
 
-COPY container-cli/package.json container-cli/pnpm-lock.yaml ./
+COPY container-cli/package.json container-cli/pnpm-lock.yaml .npmrc ./
 RUN sudo chown -R vscode:vscode .
-RUN pnpm i
+
+RUN echo ${GITHUB_TOKEN}
+
+RUN /bin/bash --login -c 'echo "asdf: ${GITHUB_TOKEN} :" && pnpm i'
+
 COPY container-cli .
 RUN sudo chown -R vscode:vscode .
 RUN /bin/bash --login -c "pnpm link --global"
