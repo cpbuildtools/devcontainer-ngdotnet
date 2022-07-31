@@ -15,12 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        continue-on-error: true
-        with:
-          key:  docker-layer-caching-build-{hash}
-          restore-keys: |
-            docker-layer-caching-build-
+      #- uses: satackey/action-docker-layer-caching@v0.0.11
+      #  continue-on-error: true
+      #  with:
+      #    key:  docker-layer-caching-build-{hash}
+      #    restore-keys: |
+      #      docker-layer-caching-build-
 
       - name: Build image
         run: docker-compose build build
