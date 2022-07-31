@@ -4,8 +4,5 @@
   "main": "index.js",
   "repository": "https://github.com/cpbuildtools/devcontainer-ngdotnet",
   "author": "Dan Erdelt <erd@conceptual.ca>",
-  "license": "MIT",
-  "dependencies": {
-    
-  }
+  "license": "MIT"
 }

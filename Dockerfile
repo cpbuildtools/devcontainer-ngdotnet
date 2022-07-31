@@ -164,7 +164,7 @@ WORKDIR /scripts
 
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
 #RUN sudo chown -R vscode:vscode .
-RUN pnpm i
+RUN /bin/bash --login -c ' pnpm i'
 COPY scripts .
 #RUN sudo chown -R vscode:vscode .
 RUN sudo chown vscode:vscode ./create.sh
