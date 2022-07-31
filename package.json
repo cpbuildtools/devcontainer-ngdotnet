@@ -1,6 +1,6 @@
 {
   "name": "devcontainer-ngdotnet",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "main": "index.js",
   "repository": "https://github.com/cpbuildtools/devcontainer-ngdotnet",
   "author": "Dan Erdelt <erd@conceptual.ca>",
