@@ -179,9 +179,7 @@ WORKDIR /container-cli
 COPY container-cli/package.json container-cli/pnpm-lock.yaml .npmrc ./
 RUN sudo chown -R vscode:vscode .
 
-RUN echo ${GITHUB_TOKEN}
-
-RUN /bin/bash --login -c 'echo "asdf: ${GITHUB_TOKEN} :" && pnpm i'
+RUN /bin/bash --login -c 'pnpm i'
 
 COPY container-cli .
 RUN sudo chown -R vscode:vscode .
