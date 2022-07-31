@@ -161,9 +161,10 @@ ENV PNPM_HOME="/home/vscode/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /scripts
-
+RUN ls -al
 COPY scripts/package.json scripts/pnpm-lock.yaml ./
 #RUN sudo chown -R vscode:vscode .
+RUN ls -al
 RUN pnpm i
 COPY scripts .
 #RUN sudo chown -R vscode:vscode .
