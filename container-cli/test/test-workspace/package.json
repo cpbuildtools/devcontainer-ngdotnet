@@ -1,0 +1,10 @@
+{
+    "name": "@internal/test-dev-container",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "./projects/*",
+        "./packages/*"
+    ]
+
+}

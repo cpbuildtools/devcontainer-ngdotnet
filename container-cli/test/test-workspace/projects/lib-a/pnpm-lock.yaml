@@ -1,0 +1,7 @@
+lockfileVersion: 5.4
+
+specifiers:
+  lib-b: ~1.0.0
+
+devDependencies:
+  lib-b: link:../lib-b

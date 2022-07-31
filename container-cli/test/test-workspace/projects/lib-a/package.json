@@ -1,0 +1,12 @@
+{
+    "name": "lib-a",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {},
+    "devDependencies": {
+        "lib-b": "~1.0.0"
+    },
+    "scripts": {
+        "sayhi": "echo lib-a says 'hi'"
+    }
+}
