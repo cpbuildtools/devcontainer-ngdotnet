@@ -39,12 +39,12 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
         with:
-          key:  docker-layer-caching-Build-{hash}
+          key:  docker-layer-caching-build-{hash}
           restore-keys: |
-            docker-layer-caching-Build-
+            docker-layer-caching-build-
 
       - name: Build image
-        run: docker-compose build
+        run: docker-compose build build
 
       - name: Create image id
         run: echo "IMAGE_ID=docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}" >> $GITHUB_ENV
