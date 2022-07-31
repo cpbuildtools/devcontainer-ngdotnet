@@ -160,15 +160,13 @@ RUN SHELL=bash pnpm setup
 ENV PNPM_HOME="/home/vscode/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
+
 WORKDIR /scripts
-RUN ls -al
-COPY scripts/package.json scripts/pnpm-lock.yaml ./
-RUN sudo chown -R vscode:vscode .
+RUN sudo chown vscode:vscode .
+COPY --chown=vscode:vscode scripts/package.json scripts/pnpm-lock.yaml ./
 RUN ls -al
 RUN pnpm i
-COPY scripts .
-RUN sudo chown -R vscode:vscode .
-RUN sudo chown vscode:vscode ./create.sh
+COPY --chown=vscode:vscode scripts .
 RUN chmod +x create.sh
 
 ####################
@@ -176,12 +174,12 @@ RUN chmod +x create.sh
 ####################
 USER vscode
 WORKDIR /container-cli
+RUN sudo chown vscode:vscode .
 
-COPY container-cli/package.json container-cli/pnpm-lock.yaml .npmrc ./
-RUN sudo chown -R vscode:vscode .
+COPY --chown=vscode:vscode container-cli/package.json container-cli/pnpm-lock.yaml .npmrc ./
+
 RUN pnpm i
-COPY container-cli .
-RUN sudo chown -R vscode:vscode .
+COPY --chown=vscode:vscode container-cli .
 RUN pnpm link --global
 
 
