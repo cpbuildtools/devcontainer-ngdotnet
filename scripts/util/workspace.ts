@@ -3,7 +3,7 @@ import { mkdir, readdir, readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import simpleGit from "simple-git";
 import { CodeWorkspace } from "./CodeWorkspace";
-
+import {PackageManager} from '@cpbuildtools/dev-container-common'
 
 export const workspaceDir = '/home/vscode/devcontainer/workspaces';
 export const projectsBaseDir = '/home/vscode/devcontainer/projects';
@@ -42,6 +42,8 @@ export async function syncWorkspaceWithProjects(workspaceFile: string) {
                     const git = simpleGit();
                     await git.clone(repoUri, projectPath);
                     console.info(repoUri, 'cloned.');
+                    await runPmInstall(projectPath);
+
                 } else if (projectPathExists && !repoUri) {
                     const git = simpleGit(projectPath);
                     if (await git.checkIsRepo()) {
@@ -80,5 +82,14 @@ export async function syncWorkspaceWithProjects(workspaceFile: string) {
         console.groupEnd();
     } catch (e) {
         console.error(e);
+    }
+
+}
+
+async function  runPmInstall(path:string){
+    const pkg = await PackageManager.loadPackage(path);
+    if(pkg){
+        console.info('Running install ', pkg.name);
+        await pkg.install();
     }
 }
