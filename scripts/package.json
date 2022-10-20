@@ -37,7 +37,7 @@
     "dependencies": {
         "@angular-devkit/core": "^13.3.5",
         "@angular-devkit/schematics": "^13.3.5",
-        "@cpbuildtools/dev-container-common": "^0.0.4",
+        "@cpbuildtools/dev-container-common": "^0.0.5",
         "case": "^1.6.3",
         "chokidar": "^3.5.3",
         "cli-spinner": "^0.2.10",
