@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@cpbuildtools/dev-container-common': ^0.0.3
+  '@cpbuildtools/dev-container-common': ^0.0.4
   '@octokit/core': ^3.6.0
   '@octokit/plugin-rest-endpoint-methods': ^5.13.0
   '@octokit/rest': ^18.12.0
@@ -19,7 +19,7 @@ specifiers:
   yargs: ^17.4.1
 
 dependencies:
-  '@cpbuildtools/dev-container-common': 0.0.3
+  '@cpbuildtools/dev-container-common': 0.0.4
   '@octokit/core': 3.6.0
   '@octokit/plugin-rest-endpoint-methods': 5.16.2_@octokit+core@3.6.0
   '@octokit/rest': 18.12.0
@@ -40,8 +40,8 @@ devDependencies:
 
 packages:
 
-  /@cpbuildtools/dev-container-common/0.0.3:
-    resolution: {integrity: sha512-9dboY5AIQCXdHlcZyZ4+06D4L6gcHXz/GhwQYszCauA3+Gv9mMBVRrhMbngw953OrfLSdj+fUs5xMZxDHfgVkw==, tarball: https://npm.pkg.github.com/download/@cpbuildtools/dev-container-common/0.0.3/a0c17ba38d5bc83e25fd9c2652e8ffca06345d0c78ca49488671ad84e207296d}
+  /@cpbuildtools/dev-container-common/0.0.4:
+    resolution: {integrity: sha512-PtGvyivb93t6Hz7TuZz8NXAa27ff4AjaJq5rVNGbu8XhNkeB1zuPPwylsCppHiy+J77LkFg7G+0IhVqA/yNk/g==, tarball: https://npm.pkg.github.com/download/@cpbuildtools/dev-container-common/0.0.4/0f5fc2dab93246d28e05b76162de5033bd5933de}
     dependencies:
       '@types/node': 18.6.3
       chalk: 4.1.2

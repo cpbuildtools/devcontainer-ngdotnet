@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "scripts": {},
     "dependencies": {
-        "@cpbuildtools/dev-container-common": "^0.0.3",
+        "@cpbuildtools/dev-container-common": "^0.0.4",
         "@octokit/core": "^3.6.0",
         "@octokit/plugin-rest-endpoint-methods": "^5.13.0",
         "@octokit/rest": "^18.12.0",
