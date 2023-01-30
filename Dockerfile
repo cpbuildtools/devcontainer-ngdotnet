@@ -1,7 +1,7 @@
 
 
-FROM mcr.microsoft.com/vscode/devcontainers/dotnet:6.0-focal as base
-ARG NODE_VERSION="16"
+FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0-bullseye-slim as base
+ARG NODE_VERSION="18"
 ARG GITHUB_TOKEN
 # Configure apt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,11 +13,11 @@ RUN apt-get install -y git procps
 # Dot NET
 ####################
 
-# Install dotnet 3.1 & 5.0
+# Install dotnet 3.1 & 5.0 & 6.0
 RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
   && dpkg -i packages-microsoft-prod.deb \
   && apt-get update \
-  && apt-get install -y dotnet-sdk-3.1 dotnet-sdk-5.0
+  && apt-get install -y dotnet-sdk-3.1 dotnet-sdk-5.0 dotnet-sdk-6.0
 
 # nuget folder
 RUN mkdir -p /home/vscode/.nuget/packages/ \
@@ -53,12 +53,20 @@ RUN SHELL=bash pnpm setup
 ####################
 
 # Install Java
-RUN apt-get update \
-  && apt-get install -y openjdk-8-jdk openjdk-8-jre
 
-ENV JAVA_HOME "/usr/lib/jvm/java-8-openjdk-amd64"
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-RUN update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+RUN wget -q -O - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | sudo apt-key add -
+RUN echo "deb [arch=amd64] https://apt.bell-sw.com/ stable main" | sudo tee /etc/apt/sources.list.d/bellsoft.list
+
+RUN sudo apt-get update
+RUN sudo apt-get install -y bellsoft-java8
+
+
+# RUN apt-get update \
+#   && apt-get install -y openjdk-8-jdk openjdk-8-jre
+
+# ENV JAVA_HOME "/usr/lib/jvm/java-8-openjdk-amd64"
+# RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+# RUN update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
 
 # Install Android SDK
 RUN apt-get update \
@@ -87,10 +95,10 @@ RUN /usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platform
 RUN sdkmanager --uninstall "build-tools;debian"
 
 # install Chrome for testing
-RUN sudo apt-get update \
-  && sudo apt-get install libxss1 libappindicator1 libindicator7 -y \
-  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-  && sudo apt install ./google-chrome*.deb -y  	
+# RUN sudo apt-get update \
+#   && sudo apt-get install libxss1 libappindicator1 libindicator7 -y \
+#   && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+#   && sudo apt install ./google-chrome*.deb -y  	
 
 RUN echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/00-local-userns.conf
 
@@ -111,6 +119,14 @@ RUN export LATEST_COMPOSE_VERSION=$(curl -sSL "https://api.github.com/repos/dock
   && curl -sSL "https://github.com/docker/compose/releases/download/${LATEST_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
   && chmod +x /usr/local/bin/docker-compose
 
+RUN sudo rm -rf /var/lib/apt/lists/lock
+
+
+# Install Docker Compose V2
+RUN apt-get update \
+  && apt-get install -y docker-compose-plugin
+
+
 # Default to root only access to the Docker socket, set up non-root init script
 RUN touch /var/run/docker-host.sock \
   && ln -s /var/run/docker-host.sock /var/run/docker.sock \
@@ -123,6 +139,8 @@ RUN echo "#!/bin/sh\n\
   ((sudoIf socat UNIX-LISTEN:/var/run/docker.sock,fork,mode=660,user=vscode UNIX-CONNECT:/var/run/docker-host.sock) 2>&1 >> /tmp/vscr-docker-from-docker.log) & > /dev/null\n\
   \"\$@\"" >> /usr/local/share/docker-init.sh \
   && chmod +x /usr/local/share/docker-init.sh
+
+
 
 ########################################
 # Dev EnvironMent Support
@@ -164,7 +182,6 @@ ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /scripts
 RUN sudo chown vscode:vscode .
 COPY --chown=vscode:vscode scripts/package.json scripts/pnpm-lock.yaml scripts/.npmrc ./
-RUN ls -al
 RUN pnpm i
 COPY --chown=vscode:vscode scripts .
 RUN chmod +x create.sh

@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - NODE_VERSION=16
+        - NODE_VERSION=18
         - GITHUB_TOKEN=${GITHUB_TOKEN}
     
   create:
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NODE_VERSION: 16
+        NODE_VERSION: 18
         GITHUB_TOKEN: ${GITHUB_TOKEN}
     command: ./create.sh
     volumes:
