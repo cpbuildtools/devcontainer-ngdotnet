@@ -1,6 +1,6 @@
 
 
-FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0 as base
+FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0-bullseye-slim as base
 ARG NODE_VERSION="18"
 ARG GITHUB_TOKEN
 # Configure apt
