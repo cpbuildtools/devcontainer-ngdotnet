@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-stretch
 
 # install nodejs
 RUN curl --silent --location https://deb.nodesource.com/setup_18.x | bash -
