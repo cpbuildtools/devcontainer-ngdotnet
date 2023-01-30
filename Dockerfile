@@ -1,7 +1,7 @@
 
 
-FROM mcr.microsoft.com/vscode/devcontainers/dotnet:6.0-focal as base
-ARG NODE_VERSION="16"
+FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0 as base
+ARG NODE_VERSION="18"
 ARG GITHUB_TOKEN
 # Configure apt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,11 +13,11 @@ RUN apt-get install -y git procps
 # Dot NET
 ####################
 
-# Install dotnet 3.1 & 5.0
+# Install dotnet 3.1 & 5.0 & 6.0
 RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
   && dpkg -i packages-microsoft-prod.deb \
   && apt-get update \
-  && apt-get install -y dotnet-sdk-3.1 dotnet-sdk-5.0
+  && apt-get install -y dotnet-sdk-3.1 dotnet-sdk-5.0 dotnet-sdk-6.0
 
 # nuget folder
 RUN mkdir -p /home/vscode/.nuget/packages/ \
@@ -110,6 +110,13 @@ RUN apt-get update \
 RUN export LATEST_COMPOSE_VERSION=$(curl -sSL "https://api.github.com/repos/docker/compose/releases/latest" | grep -o -P '(?<="tag_name": ").+(?=")') \
   && curl -sSL "https://github.com/docker/compose/releases/download/${LATEST_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
   && chmod +x /usr/local/bin/docker-compose
+
+USER vscode
+
+# Install Docker Compose V2
+RUN apt-get update \
+  && apt-get install -y docker-compose-plugin
+
 
 # Default to root only access to the Docker socket, set up non-root init script
 RUN touch /var/run/docker-host.sock \
